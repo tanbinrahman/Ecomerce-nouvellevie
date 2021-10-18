@@ -1097,7 +1097,7 @@ jQuery('#frmregistration').submit(function(e){
 
 jQuery('#frmlogin').submit(function(e){
 	e.preventDefault();
-	// jQuery('.field_error').html('');
+	jQuery('#login_msg').html('');
 	jQuery.ajax({
 		url:'login_process',
 		data:jQuery('#frmlogin').serialize(),
@@ -1105,11 +1105,11 @@ jQuery('#frmlogin').submit(function(e){
 		success:function(result){
 			// console.log(result);
 			if(result.status=="error"){
-
+				jQuery('#login_msg').html(result.msg);
 			}
 			if(result.status=="success"){
-				// jQuery('#frmlogin')[0].reset();
-				// jQuery('#success_msg').html(result.msg);
+				// alert('s');
+				window.location.href='/';
 			}
 		}
 	});

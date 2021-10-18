@@ -31,11 +31,19 @@
             <!-- header top menu -->
             <div class="header-top-menu">
               <ul>
-                <li><a href="my-account.html">My account</a></li>
-                <li><a href="wishlist.html">Wishlist</a></li>
-                <li><a href="checkout.html">Checkout</a></li>
-                <li><a href="{{ route('registration_page') }}">Registration</a></li>
-                <li><a href="{{ route('login_page') }}">Login</a></li>
+                @if(session()->has('FRONT_USER_LOGIN')!=null)
+                  <li><a href="my-account.html">My account</a></li>
+                @endif
+                  <li><a href="wishlist.html">Wishlist</a></li>
+                @if(session()->has('FRONT_USER_LOGIN')!=null)
+                  <li><a href="checkout.html">Checkout</a></li>
+                @endif
+                @if(session()->has('FRONT_USER_LOGIN')!=null)
+                  <li><a href="{{ url('/logout') }}">Logout</a></li>
+                @else 
+                  <li><a href="{{ route('registration_page') }}">Registration</a></li>
+                  <li><a href="{{ route('login_page') }}">Login</a></li>
+                @endif
               </ul>
             </div>
             <!-- end of header top menu -->

@@ -49,7 +49,15 @@ Route::get('/registration_page',[FrontController::class,'registration'])->name('
 Route::post('/registration_process',[FrontController::class,'registration_process'])->name('registration_process');
 
 Route::get('/login_page',[FrontController::class,'login'])->name('login_page');
+Route::post('/login_process',[FrontController::class,'login_process'])->name('login_process');
 
+Route::get('/logout', function () {
+    session()->forget('FRONT_USER_LOGIN');
+    session()->forget('FRONT_USER_ID');
+    session()->forget('FRONT_USER_NAME');
+    
+    return redirect('/');
+});
 
 // Cart Controller
 Route::post('/addCart',[CartController::class,'addCart'])->name('addCart');
@@ -60,6 +68,9 @@ Route::post('/apply_coupon',[CartController::class,'apply_coupon'])->name('apply
 Route::post('/shiping_amount',[CartController::class,'shipping'])->name('shipping_amount');
 Route::get('/clear_cart',[CartController::class,'clear_cart'])->name('clear_cart');
 Route::get('/remove_cupon',[CartController::class,'remove_cupon'])->name('remove_cupon');
+
+
+
 
 
 

@@ -41,11 +41,11 @@
                                 <div class="row">
                                     <div class="col-md-12 col-12 mb-20">
                                         <label>Email Address*</label>
-                                        <input class="mb-0" type="email" name="str_login_email" placeholder="Email Address">
+                                        <input class="mb-0" type="email" name="str_login_email" placeholder="Email Address" required>
                                     </div>
                                     <div class="col-12 mb-20">
                                         <label>Password</label>
-                                        <input class="mb-0" type="password" name="str_login_password" placeholder="Password">
+                                        <input class="mb-0" type="password" name="str_login_password" placeholder="Password" required>
                                     </div>
                                     <div class="col-md-8">
 
@@ -65,6 +65,7 @@
                                     </div>
 
                                 </div>
+                                @csrf
                             </form>
                             <div id="login_msg"></div>
                             <hr>
