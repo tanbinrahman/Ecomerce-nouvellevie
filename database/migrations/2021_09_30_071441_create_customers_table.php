@@ -24,6 +24,8 @@ class CreateCustomersTable extends Migration
             $table->string('district')->nullable();
             $table->integer('post_code')->nullable();
             $table->string('password');
+            $table->integer('is_verify')->nullable();
+            $table->string('rand_id')->nullable();
             $table->integer('status');
             $table->timestamps();
         });

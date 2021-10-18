@@ -26,7 +26,17 @@
 	<!--=============================================
 	=            Login register page content         =
 	=============================================-->
-
+    @php
+        if(isset($_COOKIE['login_email']) && isset($_COOKIE['login_pwd'])){
+            $login_email =$_COOKIE['login_email'];
+            $login_pwd =$_COOKIE['login_pwd'];
+            $is_remember ="checked='checked'";
+        }else{
+            $login_email ='';
+            $login_pwd ='';
+            $is_remember ='';
+        }
+    @endphp
 	<div class="page-content mb-50">
 		<div class="container">
 			<div class="row">
@@ -41,16 +51,16 @@
                                 <div class="row">
                                     <div class="col-md-12 col-12 mb-20">
                                         <label>Email Address*</label>
-                                        <input class="mb-0" type="email" name="str_login_email" placeholder="Email Address" required>
+                                        <input class="mb-0" type="email" name="str_login_email" value="{{$login_email}}" placeholder="Email Address" required>
                                     </div>
                                     <div class="col-12 mb-20">
                                         <label>Password</label>
-                                        <input class="mb-0" type="password" name="str_login_password" placeholder="Password" required>
+                                        <input class="mb-0" type="password" name="str_login_password" value="{{$login_pwd}}" placeholder="Password" required>
                                     </div>
                                     <div class="col-md-8">
 
                                         <div class="check-box d-inline-block ml-0 ml-md-2 mt-10">
-                                            <input type="checkbox" id="remember_me">
+                                            <input type="checkbox" name="rememberme" id="remember_me" {{$is_remember}}>
                                             <label for="remember_me">Remember me</label>
                                         </div>
 
