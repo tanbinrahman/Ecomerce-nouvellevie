@@ -1114,3 +1114,31 @@ jQuery('#frmlogin').submit(function(e){
 		}
 	});
 });
+
+jQuery('#frmForgot').submit(function(e){
+	e.preventDefault();
+	jQuery('#forgot_msg').html("Please wait......");
+	jQuery.ajax({
+	  url:'/forgot_password',
+	  data:jQuery('#frmForgot').serialize(),
+	  type:'post',
+	  success:function(result){
+		jQuery('#forgot_msg').html(result.msg);
+	  }
+	});
+});
+
+
+jQuery('#frmUpdatePassword').submit(function(e){
+	e.preventDefault();
+	jQuery('#thank_you_msg').html("");
+	jQuery.ajax({
+	  url:'/forgot_password_change_process',
+	  data:jQuery('#frmUpdatePassword').serialize(),
+	  type:'post',
+	  success:function(result){
+		jQuery('#thank_you_msg').html(result.msg);
+	  }
+	});
+});
+

@@ -52,6 +52,11 @@ Route::get('/verification/{id}',[FrontController::class,'verification'])->name('
 Route::get('/login_page',[FrontController::class,'login'])->name('login_page');
 Route::post('/login_process',[FrontController::class,'login_process'])->name('login_process');
 
+Route::get('/forget_page',[FrontController::class,'forget_page'])->name('forgot_page');
+Route::post('/forgot_password',[FrontController::class,'forgot_password']);
+Route::get('/forgot_password_change/{id}',[FrontController::class,'forgot_password_change']);
+Route::post('/forgot_password_change_process',[FrontController::class,'forgot_password_change_process']);
+
 Route::get('/logout', function () {
     session()->forget('FRONT_USER_LOGIN');
     session()->forget('FRONT_USER_ID');
