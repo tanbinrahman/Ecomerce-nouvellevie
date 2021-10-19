@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\validator;
 use Illuminate\Support\Str;
 use Crypt;
+use Mail;
 
 class FrontController extends Controller
 {
@@ -399,23 +400,53 @@ class FrontController extends Controller
         if(!$valid->passes()){
             return response()->json(['status'=>'error','error'=>$valid->errors()->toArray()]);
         }else{
+            $rand_id =rand(111111111 ,999999999);
             $arr=[
                 'first_name'=> $request->first_name,
                 'last_name'=>$request->last_name,
                 'email'=>$request->email,
                 'Mobile_number'=>$request->Mobile_number,
                 'password'=>Crypt::encrypt($request->password),
+                'is_verify'=>0,
+                'rand_id'=>$rand_id,
                 'status'=>1,
                 'created_at'=>date('Y-m-d h:i:s'),
                 'updated_at'=>date('Y-m-d h:i:s'),
             ];
            $query= DB::table('customers')->insert($arr);
            if($query){
-                return response()->json(['status'=>'success','msg'=>'Registration successfully done.']);
+            $data=['name'=>$request->first_name,'rand_id'=>$rand_id];
+            $user['to']=$request->email;
+            Mail::send('front/email_verification',$data,function($messages) use ($user){
+              $messages->to($user['to']);
+              $messages->subject('Email Id Verification.');
+            });
+                return response()->json(['status'=>'success','msg'=>'Registration successfully done.Please check your email id for verification.']);
            }
         }
 
     }
+
+
+
+
+    public function verification(Request $request, $id){
+
+        $result =DB::table('customers')
+        ->where(['rand_id'=>$id])
+        ->get();
+        // prx($result);
+        //'rand_id'=>''
+        if(isset($result[0])){
+            DB::table('customers')
+                ->where(['id'=>$result[0]->id])
+                ->update(['is_verify'=>1,'rand_id'=>'']);
+                return view('front.verification');
+          }else{
+            return redirect('/');
+          }
+    }
+
 
 
 
@@ -440,8 +471,17 @@ class FrontController extends Controller
         if(isset($result[0])){
             $name =$result[0]->first_name.' '.$result[0]->last_name;
             // prx($name);
-
             $db_pwd =Crypt::decrypt($result[0]->password);
+            $status =$result[0]->status;
+            $is_verify=$result[0]->is_verify;
+    
+            if($is_verify==0){
+              return response()->json(['status'=>"error",'msg'=>"Please verify your email id."]);
+            }
+    
+            if($status==0){
+              return response()->json(['status'=>"error",'msg'=>"Your account is deactivate."]);
+            }
             if($db_pwd==$request->str_login_password){
                 if($request->rememberme===null){
                     setcookie('login_email',$request->str_login_email,100);

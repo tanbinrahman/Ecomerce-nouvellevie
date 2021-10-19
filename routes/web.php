@@ -47,6 +47,7 @@ Route::get('/search/{str}',[FrontController::class,'search']);
 
 Route::get('/registration_page',[FrontController::class,'registration'])->name('registration_page');
 Route::post('/registration_process',[FrontController::class,'registration_process'])->name('registration_process');
+Route::get('/verification/{id}',[FrontController::class,'verification'])->name('verification');
 
 Route::get('/login_page',[FrontController::class,'login'])->name('login_page');
 Route::post('/login_process',[FrontController::class,'login_process'])->name('login_process');
