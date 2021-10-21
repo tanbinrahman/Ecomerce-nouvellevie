@@ -50,7 +50,14 @@
 									</tr>
 								</thead>
 								<tbody>
+									<?php 
+										$productamount =0;
+									?>
                                     @foreach ($CartGetContents as $CartGetContent)
+										<?php 
+											$productamount =$productamount+( $CartGetContent->quantity*$CartGetContent->price);
+											// prx($productamount);
+										?>
                                         <tr>
                                             <td class="pro-thumbnail"><a href="#"><img src="{{ asset('storage/media/product/'.$CartGetContent->attributes->image) }}"
                                                         class="img-fluid" alt="Product"></a></td>
@@ -168,6 +175,9 @@
 									{{-- @if($condition !==null)
 										<p>Cupon Value <span>৳ {{ $conditionValue }}</span></p>
 									@endif	 --}}
+									@if($condition !==null)
+										<p>Coupon value <span>৳ {{ $productamount-$GetSubTotal }}</span></p>
+									@endif
 									<p>Sub Total <span>৳ {{ $GetSubTotal }}</span></p>
 									<p>Shipping Cost <span>৳ @if($condition1 !==null)
 																{{ $conditionValue1 }}

@@ -204,13 +204,23 @@
 										<div class="checkout-cart-total">
 
 											<h4>Product <span>Total</span></h4>
-
+											<?php 
+												$productamount =0;
+											?>
 											<ul>
                                                 @foreach ($CartGetContents as $CartGetContent)
+													<?php 
+														$productamount =$productamount+( $CartGetContent->quantity*$CartGetContent->price);
+														// prx($productamount);
+													?>
 												    <li>{{ $CartGetContent->name }} X {{ $CartGetContent->quantity}} <span>৳ {{ $CartGetContent->quantity*$CartGetContent->price}}</span></li>
                                                 @endforeach
 											</ul>
-
+											@if($condition !==null)
+											<p>Coupon value <span>৳ {{ $productamount-$GetSubTotal }}</span></p>
+                                                                
+	
+                                            @endif
 											<p>Sub Total <span>৳ {{ $GetSubTotal }}</span></p>
 											<p>Shipping Fee <span>৳ @if($condition1 !==null)
                                                                         {{ $conditionValue1 }}
