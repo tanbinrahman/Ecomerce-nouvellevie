@@ -13,33 +13,17 @@ use Illuminate\Support\Facades\File;
 
 class BannerController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
         $banners = Banner::get();
         return view('admin.banner.banner', compact('banners'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
         return view('admin.banner.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
         $request->validate([
@@ -70,26 +54,8 @@ class BannerController extends Controller
         return redirect()->route('banner.index');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Banner  $banner
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Banner $banner)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Banner  $banner
-     * @return \Illuminate\Http\Response
-     */
     public function edit($id)
     {
-        // category =Category::find($id);
        if($id>0){
         $arr=Banner::where(['id'=>$id])->get();
             $result['image']  = $arr['0']->image;
@@ -99,19 +65,9 @@ class BannerController extends Controller
             $result['id']  =  $arr['0']->id; 
        }
 
-    //    echo '<pre>';
-    //    print_r($result['data']);
-    //    die();
     return view('admin.banner.edit',$result);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Banner  $banner
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request  $request ,$id)
     {
         $request->validate([
@@ -122,12 +78,6 @@ class BannerController extends Controller
         $banner =Banner::find($id);
         if($request->hasfile('image')){
             $bannerImage =DB::table('banners')->where(['id'=>$id])->get();
-            // echo '<pre>';
-            // print_r($cateImage);
-            // die();
-            // if(Storage::exists('/public/media/banner/'.$bannerImage[0]->image)){
-            //     Storage::delete('/public/media/banner/'.$bannerImage[0]->image);
-            // }
             if(File::exists('storage/media/banner/'.$bannerImage[0]->image)){
                 File::delete('storage/media/banner/'.$bannerImage[0]->image);
             }
@@ -148,12 +98,6 @@ class BannerController extends Controller
         return redirect()->route('banner.index');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Banner  $banner
-     * @return \Illuminate\Http\Response
-     */
     public function destroy(Request  $request ,$id)
     {
         $banner =Banner::find($id);

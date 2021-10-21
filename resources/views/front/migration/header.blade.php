@@ -108,7 +108,7 @@
               <!-- end of search bar -->
               <!-- shopping cart -->
               <div class="shopping-cart" id="shopping-cart">
-                <a href="cart.html">
+                <a href="{{ route('viewCart') }}">
                   <div class="cart-icon d-inline-block">
                     <span class="icon_bag_alt"></span>
                   </div>
@@ -160,8 +160,14 @@
                       <p class="total">Subtotal <span>৳{{ $GetSubTotal }}</span></p>
                     </div>
                     <div class="floating-cart-btn text-center">
-                      <a href="checkout.html">Checkout</a>
-                      <a href="{{ route('viewCart') }}">View Cart</a>
+                      {{-- <a href="checkout.html">Checkout</a> --}}
+                      <?php 
+                        // prx($CartGetContents);
+                      ?>
+                      {{-- @if(isset($CartGetContents)) --}}
+                      {{-- @if ($CartGetContents !==null) --}}
+                        <a href="{{ route('viewCart') }}">View Cart</a>  
+                      {{-- @endif   --}}
                     </div>
                   </div>
                 </div>

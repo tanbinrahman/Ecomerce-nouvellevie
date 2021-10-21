@@ -179,10 +179,18 @@
 								<div class="cart-summary-button">
 									{{-- <button class="checkout-btn">Checkout</button> --}}
 									<a href="{{ route('clear_cart') }}" class="checkout-btn btn btn-outline-success btn-lg mr-140">Clear Cart</a>&nbsp;&nbsp;&nbsp;
-									<a href="" class="update-btn btn btn-success btn-lg">Checkout</a>
+									<a href="{{ route('chekout_page') }}" class="update-btn btn btn-success btn-lg">Checkout</a>
 									
 									{{-- <button class="update-btn"></button> --}}
 								</div>
+								@if(session()->has('message'))
+									<div class="sufee-alert alert with-close alert-success alert-dismissible fade show">
+										{{ session('message') }}
+										<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+											<span aria-hidden="true">×</span>
+										</button>
+									</div>
+								@endif
 							</div>
 
 							<!--=======  End of Cart summery  =======-->

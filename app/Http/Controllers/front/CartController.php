@@ -77,12 +77,37 @@ class CartController extends Controller
         return back();
     }
 
+
+
     public function viewCart(){
         $result['shipping_details'] =DB::table('shippings')
                             ->where(['status'=>1])
                             ->get();
-       return view('front.cart',$result);
+        $cartCollection = Cart::getTotalQuantity();
+        // prx($cartCollection);
+        if($cartCollection==0){
+        // if(isset($cartCollection)){    
+            //  echo 'yes';
+            return redirect('/');
+        }else{
+            return view('front.cart',$result);
+            // echo 'no';
+        }
+        // $cartproduct =Cart::getContent();
+        // if(isset($cartproduct)){
+        //     return view('front.cart',$result);
+        // }else{
+        //     return redirect()->back()->with('message','Please select any Product for add cart.');
+        // }
+        // if(Cart::getContent() !==null){
+        //     return view('front.cart',$result);
+        // }else{
+        //     return redirect()->back()->with('message','Please select any Product for add cart.');
+        // }                                                        
+    //    return view('front.cart',$result);
     }
+
+
 
     public function updateCart(Request $request){
         // return $request->quantity;

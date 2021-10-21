@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\validator;
 use Illuminate\Support\Str;
 use Crypt;
 use Mail;
+use Cart;
 
 class FrontController extends Controller
 {
@@ -575,6 +576,42 @@ class FrontController extends Controller
             ]);
   
             return response()->json(['status'=>'success','msg'=>'Password update successfully.']);
+        
+    }
+
+
+
+    public function chekout_page(Request $request){
+        // prx(Cart::getCondition('shippin'));
+        if(Cart::getCondition('shippin') !==null){
+            if($request->session()->has('FRONT_USER_LOGIN')){
+               $uid = $request->session()->get('FRONT_USER_ID');
+                $customer_info =DB::table('customers')
+                ->where(['id'=>$uid])
+                ->get();
+                // prx($customer_info);
+              $result['customers']['first_name']= $customer_info[0]->first_name; 
+              $result['customers']['last_name']= $customer_info[0]->last_name;
+              $result['customers']['street_address']= $customer_info[0]->street_address;
+              $result['customers']['town']= $customer_info[0]->town;
+              $result['customers']['district']= $customer_info[0]->district;
+              $result['customers']['post_code']= $customer_info[0]->post_code;
+              $result['customers']['Mobile_number']= $customer_info[0]->Mobile_number;
+              $result['customers']['email']= $customer_info[0]->email;
+            }else{
+                $result['customers']['first_name']= ''; 
+                $result['customers']['last_name']= '';
+                $result['customers']['street_address']= '';
+                $result['customers']['town']= '';
+                $result['customers']['district']= '';
+                $result['customers']['post_code']= '';
+                $result['customers']['Mobile_number']= '';
+                $result['customers']['email']= '';
+            }
+            return view('front.checkout',$result);
+        }else{
+            return redirect()->back()->with('message','Please select any shipping Address.');
+        }
         
     }
 

@@ -100,6 +100,12 @@
                                 <i class="fas fa-users"></i>Customer</a>
 
                         </li>
+                        <li class="@yield('order_select')">
+                            <a  href="#">
+                            {{-- <a  href=""> --}}
+                                <i class="fas fa-users"></i>Order details</a>
+
+                        </li>
                     </ul>
                 </div>
             </nav>
@@ -170,6 +176,12 @@
                             <a  href="{{ route('customer.index') }}">
                             {{-- <a  href=""> --}}
                                 <i class="fas fa-users"></i>Customer</a>
+
+                        </li>
+                        <li class="@yield('order_select')">
+                            <a  href="#">
+                            {{-- <a  href=""> --}}
+                                <i class="fas fa-dolly"></i>Order details</a>
 
                         </li>
                         
