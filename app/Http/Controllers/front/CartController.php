@@ -17,10 +17,10 @@ class CartController extends Controller
         // die();
         // if($request->session()->has('FRONT_USER_LOGIN')){
         //     $uid=$request->session()->get('FRONT_USER_LOGIN');
-        //     $user_type="Reg";
+        //     // $user_type="Reg";
         // }else{
         //     $uid=getUserTempId();
-        //     $user_type="Not-Reg";
+        //     // $user_type="Not-Reg";
         // }
         // echo $uid;
         // echo $user_type;

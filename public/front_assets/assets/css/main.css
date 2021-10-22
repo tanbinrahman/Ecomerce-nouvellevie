@@ -8213,3 +8213,13 @@ footer {
   color:#0cae00;
   font-weight:bold;
 }
+
+#order_place_msg{
+  color: red;
+  font-size: 16px;
+}
+
+.order_place{
+  color:#0cae00;
+  font-weight:bold;
+}

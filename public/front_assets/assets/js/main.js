@@ -1142,3 +1142,18 @@ jQuery('#frmUpdatePassword').submit(function(e){
 	});
 });
 
+jQuery('#frmPlaceOrder').submit(function(e){
+	e.preventDefault();
+	jQuery('#order_place_msg').html("Please wait.........");
+	jQuery.ajax({
+		url:'/place_order',
+		data:jQuery('#frmPlaceOrder').serialize(),
+		type:'post',
+		success:function(result){
+			if(result.status='success'){
+				window.location.href ="/order_placed";
+			}
+			jQuery('#order_place_msg').html(result.msg);
+		}
+	});
+});

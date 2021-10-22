@@ -34,7 +34,7 @@
 				<div class="col-12">
 
 					<!-- Checkout Form s-->
-					<form action="#" class="checkout-form">
+					<form action="#" class="checkout-form" id="frmPlaceOrder">
 						<div class="row row-40">
 
 							<div class="col-lg-7 mb-20">
@@ -95,8 +95,8 @@
 										</div> --}}
 
 										<div class="col-md-12 col-12 mb-20">
-											<label>Town/City*</label>
-											<input type="text" placeholder="Town/City" name="town" required value="{{ $customers['town'] }}">
+											<label>Town*</label>
+											<input type="text" placeholder="Town" name="town" required value="{{ $customers['town'] }}">
 										</div>
 
 										<div class="col-md-6 col-12 mb-20">
@@ -132,36 +132,36 @@
 
 										<div class="col-md-6 col-12 mb-20">
 											<label>First Name*</label>
-											<input type="text" placeholder="First Name">
+											<input type="text" name="s_first_name" placeholder="First Name">
 										</div>
 
 										<div class="col-md-6 col-12 mb-20">
 											<label>Last Name*</label>
-											<input type="text" placeholder="Last Name">
+											<input type="text" name="s_last_name" placeholder="Last Name">
 										</div>
 
 										<div class="col-md-6 col-12 mb-20">
 											<label>Email Address*</label>
-											<input type="email" placeholder="Email Address">
+											<input type="email" name="s_email" placeholder="Email Address">
 										</div>
 
 										<div class="col-md-6 col-12 mb-20">
 											<label>Phone no*</label>
-											<input type="text" placeholder="Phone number">
+											<input type="text" name="s_Mobile_number" placeholder="Phone number">
 										</div>
 
-										<div class="col-12 mb-20">
+										{{-- <div class="col-12 mb-20">
 											<label>Company Name</label>
-											<input type="text" placeholder="Company Name">
-										</div>
+											<input type="text"  placeholder="Company Name">
+										</div> --}}
 
 										<div class="col-12 mb-20">
 											<label>Address*</label>
-											<input type="text" placeholder="Address line 1">
-											<input type="text" placeholder="Address line 2">
+											<input type="text" name="s_street_address" placeholder="Address line 1">
+											{{-- <input type="text" placeholder="Address line 2"> --}}
 										</div>
 
-										<div class="col-md-6 col-12 mb-20">
+										{{-- <div class="col-md-6 col-12 mb-20">
 											<label>Country*</label>
 											<select class="nice-select">
 												<option>Bangladesh</option>
@@ -170,21 +170,21 @@
 												<option>India</option>
 												<option>Japan</option>
 											</select>
+										</div> --}}
+
+										<div class="col-md-12 col-12 mb-20">
+											<label>Town*</label>
+											<input type="text" name="s_town" placeholder="Town">
 										</div>
 
 										<div class="col-md-6 col-12 mb-20">
-											<label>Town/City*</label>
-											<input type="text" placeholder="Town/City">
+											<label>District*</label>
+											<input type="text" name="s_district" placeholder="State">
 										</div>
 
 										<div class="col-md-6 col-12 mb-20">
-											<label>State*</label>
-											<input type="text" placeholder="State">
-										</div>
-
-										<div class="col-md-6 col-12 mb-20">
-											<label>Zip Code*</label>
-											<input type="text" placeholder="Zip Code">
+											<label>Post Code*</label>
+											<input type="text" name="s_post_code" placeholder="Zip Code">
 										</div>
 
 									</div>
@@ -217,6 +217,7 @@
                                                 @endforeach
 											</ul>
 											@if($condition !==null)
+											<p>Total product amount <span>৳ {{ $productamount }}</span></p>
 											<p>Coupon value <span>৳ {{ $productamount-$GetSubTotal }}</span></p>
                                                                 
 	
@@ -242,22 +243,24 @@
 										<div class="checkout-payment-method">
 
 											<div class="single-method">
-												<input type="radio" id="payment_cash" name="payment-method" value="cash">
+												<input type="radio" id="payment_cash" name="payment_method" value="COD">
 												<label for="payment_cash">Cash on Delivery</label>
 												<p data-method="cash">Please send a Check to Store name with Store Street, Store Town, Store
 													State, Store Postcode, Store Country.</p>
 											</div>
 
 										</div>
-
-										<button class="place-order">Place order</button>
-
+										<input type="hidden" name="cupon_value" value="{{ $productamount-$GetSubTotal }}">
+										<button class="place-order" id="btnPlaceOrder">Place order</button>
+										 
 									</div>
-
+										<div id="order_place_msg"></div>
 								</div>
 							</div>
 
 						</div>
+
+						@csrf
 					</form>
 
 				</div>

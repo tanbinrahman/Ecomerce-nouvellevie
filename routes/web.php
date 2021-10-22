@@ -58,6 +58,8 @@ Route::get('/forgot_password_change/{id}',[FrontController::class,'forgot_passwo
 Route::post('/forgot_password_change_process',[FrontController::class,'forgot_password_change_process']);
 
 Route::get('/chekout_page',[FrontController::class,'chekout_page'])->name('chekout_page');
+Route::post('/place_order',[FrontController::class,'place_order']);
+Route::get('/order_placed',[FrontController::class,'order_placed']);
 
 Route::get('/logout', function () {
     session()->forget('FRONT_USER_LOGIN');

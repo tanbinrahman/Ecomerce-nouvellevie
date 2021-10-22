@@ -615,4 +615,93 @@ class FrontController extends Controller
         
     }
 
+
+
+
+    public function place_order(Request $request){
+        // prx($_POST);
+        // echo $request->session()->get('FRONT_USER_ID');
+        $total =Cart::getTotal();
+        $product_details =Cart::getContent();
+        // prx($product_details);
+        $condition = Cart::getCondition('apply_cupon');
+        if($condition!==null){
+          
+          $condition->getTarget();
+          $condition->getName();
+          $conditionType =$condition->getType();
+          $condition->getValue();
+        }else{
+            $conditionType ="";
+        }
+
+
+        if($request->session()->has('FRONT_USER_LOGIN')){
+            $uid=$request->session()->get('FRONT_USER_ID');
+            $arr=[
+                "customer_id"=>$uid,
+                "first_name"=>$request->first_name,
+                "last_name"=>$request->last_name,
+                "eamil"=>$request->email,
+                "mobile"=>$request->Mobile_number,
+                "address"=>$request->street_address,
+                "town"=>$request->town,
+                "district"=>$request->district,
+                "post_code"=>$request->post_code,
+                "cupon_code"=>$conditionType,
+                "cupon_code"=>$conditionType,
+                "cupon_value"=>$request->cupon_value,
+                "order_status"=>1,
+                "payment_status"=>"Pending",
+                "payment_type"=>$request->payment_method,
+                "total_amount"=>$total,
+                "added_on"=>date("Y-m-d h:i:s"),
+                
+                
+            ];
+            $order_id =DB::table('orders')->insertGetId($arr);
+            // echo $query;
+            if($order_id>0){
+                foreach($product_details as $product_detail){
+                    $productDetailArr['orders_id']=$order_id;
+                    $productDetailArr['product_id']=$product_detail->id ;
+                    $productDetailArr['products_attr_id']=$product_detail->attributes->product_attr_id ;
+                    $productDetailArr['weight']=$product_detail->attributes->weight ;
+                    $productDetailArr['unit']=$product_detail->attributes->unit ;
+                    $productDetailArr['price']=$product_detail->price;
+                    $productDetailArr['qty']=$product_detail->quantity;
+                    DB::table('orders_details')->insertGetId($productDetailArr);
+                }
+                Cart::clear();
+                Cart::clearCartConditions();
+
+                $request->session()->put('ORDER_ID',$order_id);
+
+                $status ="success";
+                $msg ="Order placed.";
+            }else{
+                $status ="false";
+                $msg ="Please try after sometime.";
+            }
+
+        }else{
+            $status ="false";
+            $msg ="Please login to place order.";
+        }
+        return response()->json(['status'=>$status,'msg'=>$msg]);
+    }
+
+
+
+
+
+    public function order_placed(Request $request){
+        if($request->session()->has('ORDER_ID')){
+            return view('front.order_placed');
+        }else{
+            return redirect('/');
+        }
+    }
+
+
 }

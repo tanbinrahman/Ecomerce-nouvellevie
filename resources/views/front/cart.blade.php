@@ -42,6 +42,7 @@
 									<tr>
 										<th class="pro-thumbnail">Image</th>
 										<th class="pro-title">Product</th>
+										<th class="pro-title">Weight</th>
 										<th class="pro-price">Price</th>
 										<th class="pro-quantity">Quantity</th>
                                         <th class="pro-quantity">update</th>
@@ -55,6 +56,9 @@
 									?>
                                     @foreach ($CartGetContents as $CartGetContent)
 										<?php 
+											// prx($CartGetContent);
+										?>
+										<?php 
 											$productamount =$productamount+( $CartGetContent->quantity*$CartGetContent->price);
 											// prx($productamount);
 										?>
@@ -62,6 +66,7 @@
                                             <td class="pro-thumbnail"><a href="#"><img src="{{ asset('storage/media/product/'.$CartGetContent->attributes->image) }}"
                                                         class="img-fluid" alt="Product"></a></td>
                                             <td class="pro-title"><a href="#">{{ $CartGetContent->name }}</a></td>
+											<td class="pro-price"><span> {{ $CartGetContent->attributes->weight}}{{ $CartGetContent->attributes->unit}}</span></td>
                                             <td class="pro-price"><span>৳ {{ $CartGetContent->price}}</span></td>
                                         <form action="{{ route('updateCart') }}" method="POST">    
                                             @csrf  
@@ -176,6 +181,7 @@
 										<p>Cupon Value <span>৳ {{ $conditionValue }}</span></p>
 									@endif	 --}}
 									@if($condition !==null)
+										<p>Total product amount <span>৳ {{ $productamount }}</span></p>
 										<p>Coupon value <span>৳ {{ $productamount-$GetSubTotal }}</span></p>
 									@endif
 									<p>Sub Total <span>৳ {{ $GetSubTotal }}</span></p>
