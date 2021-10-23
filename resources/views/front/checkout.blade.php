@@ -111,11 +111,12 @@
 
 										<div class="col-12 mb-20">
 											<div class="check-box">
-												<input type="checkbox" id="create_account">
+												<input type="checkbox"  id="create_account">
 												<label for="create_account">Create an Acount?</label>
 											</div>
 											<div class="check-box">
-												<input type="checkbox" id="shiping_address" data-shipping>
+												
+												<input type="checkbox" name="shiping_address" id="shiping_address" data-shipping>
 												<label for="shiping_address">Ship to Different Address</label>
 											</div>
 										</div>

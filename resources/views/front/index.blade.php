@@ -184,12 +184,50 @@
                   </div>
   
                   <!--=======  End of tab slider sub product  =======-->
+                </div>
+                                 
+               @endforeach   
+                <!--=======  End of single tab slider product  =======-->
+              </div>
   
+              <!--=======  End of category container  =======-->
+            </div>
+          </div>
+        </div>
+      </div>
+  
+      <!--=====  End of Product slider  ======-->
+
+            <!--=============================================
+      =            Product Slider         =
+      =============================================-->
+  
+      <div class="slider category-slider mb-35">
+        <div class="container">
+          <div class="row">
+            <div class="col-lg-12">
+              <!--=======  category slider section title  =======-->
+  
+              <div class="section-title">
+                <h3>Feature Products</h3>
+              </div>
+  
+              <!--=======  End of category slider section title  =======-->
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-lg-12">
+              <!--=======  category container  =======-->
+  
+              <div class="tab-slider-container">
+                <!--=======  single tab slider item  =======-->
+               @foreach ($featured_products as $product)
+                <div class="single-tab-slider-item">
                   <!--=======  tab slider sub product  =======-->
-  
                   <div class="gf-product tab-slider-sub-product">
                     <div class="image">
                       <a href="{{ route('product.view',$product->slug) }}">
+                        <span class="onsale">Sale!</span>
                         <img
                           src="{{asset('storage/media/product/'.$product->image)}}"
                           class="img-fluid"
@@ -197,7 +235,7 @@
                         />
                       </a>
                       <div class="product-hover-icons">
-                        <a href="#" data-tooltip="Add to cart">
+                        <a class="active" href="#" data-tooltip="Add to cart">
                           <span class="icon_cart_alt"></span
                         ></a>
                         <a href="#" data-tooltip="Add to wishlist">
@@ -205,12 +243,12 @@
                         </a>
                         {{-- <a href="#" data-tooltip="Compare">
                           <span class="arrow_left-right_alt"></span>
-                        </a>
-                        <a
+                        </a> --}}
+                        {{-- <a
                           href="{{ route('front.quickview',$product->id) }}"
-                          href=""
+                          href="";
                           data-tooltip="Quick view"
-                          data-toggle="modal" 
+                          data-toggle="modal"
                           data-target="#quick-view-modal-container"
                         >
                           <span class="icon_search"></span>
@@ -222,10 +260,11 @@
                         <a href="{{ route('product.view',$product->slug) }}"
                           >{{Str::limit($product->name, $limit = 25, ' ...')}}</a
                         >
+                        {{-- {{str_limit($biodata ->description, $limit = 20, $end = '...')}} --}}
                       </h3>
                       <div class="price-box">
-                        <span class="main-price">৳{{ $products_attr[$product->id][0]->orginal_price}}</span>
-                        <span class="discounted-price">৳{{ $products_attr[$product->id][0]->offer_price}}</span>
+                        <span class="main-price">৳{{ $featured_product_attr[$product->id][0]->orginal_price}}</span>
+                        <span class="discounted-price">৳{{ $featured_product_attr[$product->id][0]->offer_price}}</span>
                       </div>
                     </div>
                   </div>

@@ -58,7 +58,21 @@ class FrontController extends Controller
                            ->get();                       
 
          }
-         
+
+
+         $result['featured_products'] =DB::table('products')
+                ->where(['products.status'=>1])
+                ->where(['is_featured'=>1])
+                ->get();
+            foreach($result['featured_products'] as $list3){
+            $result['featured_product_attr'][$list3->id] =DB::table('products_attr')
+                    ->leftJoin('weights','weights.id','=','products_attr.weight_id')
+                    ->leftJoin('units','units.id','=','products_attr.unit_id')
+                    ->where(['products_id'=>$list3->id])
+                    ->get();                       
+
+            } 
+        //  prx($result['featured_product_attr']);
          $result['blogs'] =DB::table('blogs')
                         ->where(['status'=>1])
                         ->get();
@@ -582,6 +596,7 @@ class FrontController extends Controller
 
 
     public function chekout_page(Request $request){
+
         // prx(Cart::getCondition('shippin'));
         if(Cart::getCondition('shippin') !==null){
             if($request->session()->has('FRONT_USER_LOGIN')){
@@ -620,6 +635,7 @@ class FrontController extends Controller
 
     public function place_order(Request $request){
         // prx($_POST);
+        // die();
         // echo $request->session()->get('FRONT_USER_ID');
         $total =Cart::getTotal();
         $product_details =Cart::getContent();
@@ -637,7 +653,36 @@ class FrontController extends Controller
 
 
         if($request->session()->has('FRONT_USER_LOGIN')){
-         
+
+            // $arr=[
+            //     // 'first_name'=> $request->first_name,
+            //     // 'last_name'=>$request->last_name,
+            //     // 'email'=>$request->email,
+            //     // 'Mobile_number'=>$request->Mobile_number,
+            //     // 'password'=>Crypt::encrypt($rand_id ),
+            //     'street_address'=>$request->street_address,
+            //     'town'=>$request->town,
+            //     'district'=>$request->district,
+            //     'post_code'=>$request->post_code,
+            //     // 'is_verify'=>1,
+            //     // 'rand_id'=>$rand_id,
+            //     // 'status'=>1,
+            //     // 'is_forgot_password'=>0,
+            //     // 'created_at'=>date('Y-m-d h:i:s'),
+            //     'updated_at'=>date('Y-m-d h:i:s'),
+            // ];
+            // DB::table('customers')->update($arr);
+            $result =DB::table('customers')
+            ->where(['id'=>$request->session()->get('FRONT_USER_ID')])
+            ->update([
+                'street_address'=>$request->street_address,
+                'town'=>$request->town,
+                'district'=>$request->district,
+                'post_code'=>$request->post_code,
+                'updated_at'=>date('Y-m-d h:i:s'),
+                
+            ]);
+
         }else{
             $valid =Validator::make($request->all(),[
                 'email'=>'required|email|unique:customers,email', 
@@ -680,27 +725,51 @@ class FrontController extends Controller
         }   
 
             $uid=$request->session()->get('FRONT_USER_ID');
-            $arr=[
-                "customer_id"=>$uid,
-                "first_name"=>$request->first_name,
-                "last_name"=>$request->last_name,
-                "eamil"=>$request->email,
-                "mobile"=>$request->Mobile_number,
-                "address"=>$request->street_address,
-                "town"=>$request->town,
-                "district"=>$request->district,
-                "post_code"=>$request->post_code,
-                "cupon_code"=>$conditionType,
-                "cupon_code"=>$conditionType,
-                "cupon_value"=>$request->cupon_value,
-                "order_status"=>1,
-                "payment_status"=>"Pending",
-                "payment_type"=>$request->payment_method,
-                "total_amount"=>$total,
-                "added_on"=>date("Y-m-d h:i:s"),
-                
-                
-            ];
+            if($request->shiping_address===null){
+                $arr=[
+                    "customer_id"=>$uid,
+                    "first_name"=>$request->first_name,
+                    "last_name"=>$request->last_name,
+                    "eamil"=>$request->email,
+                    "mobile"=>$request->Mobile_number,
+                    "address"=>$request->street_address,
+                    "town"=>$request->town,
+                    "district"=>$request->district,
+                    "post_code"=>$request->post_code,
+                    "cupon_code"=>$conditionType,
+                    "cupon_code"=>$conditionType,
+                    "cupon_value"=>$request->cupon_value,
+                    "order_status"=>1,
+                    "payment_status"=>"Pending",
+                    "payment_type"=>$request->payment_method,
+                    "total_amount"=>$total,
+                    "added_on"=>date("Y-m-d h:i:s"),
+                       
+                ];
+            }else{
+                $arr=[
+                    "customer_id"=>$uid,
+                    "first_name"=>$request->s_first_name,
+                    "last_name"=>$request->s_last_name,
+                    "eamil"=>$request->s_email,
+                    "mobile"=>$request->s_Mobile_number,
+                    "address"=>$request->s_street_address,
+                    "town"=>$request->s_town,
+                    "district"=>$request->s_district,
+                    "post_code"=>$request->s_post_code,
+                    "cupon_code"=>$conditionType,
+                    "cupon_code"=>$conditionType,
+                    "cupon_value"=>$request->cupon_value,
+                    "order_status"=>1,
+                    "payment_status"=>"Pending",
+                    "payment_type"=>$request->payment_method,
+                    "total_amount"=>$total,
+                    "added_on"=>date("Y-m-d h:i:s"),
+                    
+                    
+                ];
+            }
+
             $order_id =DB::table('orders')->insertGetId($arr);
             // echo $query;
             if($order_id>0){
