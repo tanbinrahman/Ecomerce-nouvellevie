@@ -637,6 +637,48 @@ class FrontController extends Controller
 
 
         if($request->session()->has('FRONT_USER_LOGIN')){
+         
+        }else{
+            $valid =Validator::make($request->all(),[
+                'email'=>'required|email|unique:customers,email', 
+              ]);
+        
+              if(!$valid->passes()){
+                return response()->json(['status'=>'false','msg'=>"The email has already been taken."]);
+              }else{
+                $rand_id =rand(111111111 ,999999999);
+                $arr=[
+                    'first_name'=> $request->first_name,
+                    'last_name'=>$request->last_name,
+                    'email'=>$request->email,
+                    'Mobile_number'=>$request->Mobile_number,
+                    'password'=>Crypt::encrypt($rand_id ),
+                    'street_address'=>$request->street_address,
+                    'town'=>$request->town,
+                    'district'=>$request->district,
+                    'post_code'=>$request->post_code,
+                    'is_verify'=>1,
+                    'rand_id'=>$rand_id,
+                    'status'=>1,
+                    'is_forgot_password'=>0,
+                    'created_at'=>date('Y-m-d h:i:s'),
+                    'updated_at'=>date('Y-m-d h:i:s'),
+                ];
+                  $user_id= DB::table('customers')->insertGetId($arr);
+                  $name =$request->first_name.' '.$request->last_name;
+                  $request->session()->put('FRONT_USER_LOGIN',true);
+                  $request->session()->put('FRONT_USER_ID',$user_id);
+                  $request->session()->put('FRONT_USER_NAME',$name);
+
+                  $data=['name'=>$name,'password'=>$rand_id];
+                  $user['to']=$request->email;
+                  Mail::send('front/password_send',$data,function($message) use ($user){
+                    $message->to($user['to']);
+                    $message->subject('Forgot Password');
+                  });
+              }
+        }   
+
             $uid=$request->session()->get('FRONT_USER_ID');
             $arr=[
                 "customer_id"=>$uid,
@@ -683,11 +725,7 @@ class FrontController extends Controller
                 $status ="false";
                 $msg ="Please try after sometime.";
             }
-
-        }else{
-            $status ="false";
-            $msg ="Please login to place order.";
-        }
+       
         return response()->json(['status'=>$status,'msg'=>$msg]);
     }
 

@@ -1150,7 +1150,7 @@ jQuery('#frmPlaceOrder').submit(function(e){
 		data:jQuery('#frmPlaceOrder').serialize(),
 		type:'post',
 		success:function(result){
-			if(result.status='success'){
+			if(result.status=='success'){
 				window.location.href ="/order_placed";
 			}
 			jQuery('#order_place_msg').html(result.msg);
