@@ -251,6 +251,7 @@
 											</div>
 
 										</div>
+										<input type="hidden" name="shipping_value" value="{{ $conditionValue1 }}">
 										<input type="hidden" name="cupon_value" value="{{ $productamount-$GetSubTotal }}">
 										<button class="place-order" id="btnPlaceOrder">Place order</button>
 										 

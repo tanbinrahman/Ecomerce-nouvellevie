@@ -32,9 +32,11 @@
             <div class="header-top-menu">
               <ul>
                 @if(session()->has('FRONT_USER_LOGIN')!=null)
-                  <li><a href="my-account.html">My account</a></li>
+                  <li><a href="{{ route('order') }}">My account</a></li>
                 @endif
+
                   <li><a href="wishlist.html">Wishlist</a></li>
+
                 @if(session()->has('FRONT_USER_LOGIN')!=null)
                   <li><a href="checkout.html">Checkout</a></li>
                 @endif

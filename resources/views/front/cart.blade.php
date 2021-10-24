@@ -68,17 +68,22 @@
                                             <td class="pro-title"><a href="#">{{ $CartGetContent->name }}</a></td>
 											<td class="pro-price"><span> {{ $CartGetContent->attributes->weight}}{{ $CartGetContent->attributes->unit}}</span></td>
                                             <td class="pro-price"><span>৳ {{ $CartGetContent->price}}</span></td>
-                                        <form action="{{ route('updateCart') }}" method="POST">    
+                                        <form action="{{ route('updateCart') }}" method="get"> 
+											  
                                             @csrf  
                                             <td class="pro-quantity">
                                                 <div class="pro-qty"><input type="text" name="quantity" value="{{ $CartGetContent->quantity}}"></div>
+												{{-- <input type="hidden" name="quantity" value="{{ $CartGetContent->quantity}}"> --}}
+												{{-- <input type="number" value="1" id="quantity" name="quantity" min="1" value="{{ $CartGetContent->quantity}}" > --}}
+												<input type="hidden" name="product_id" value="{{ $CartGetContent->id }}">
                                             </td>  
                                             <td>
-                                                <input type="hidden" name="product_id" value="{{ $CartGetContent->id }}">
-                                                    
+                                                
+                                                 
                                                 <button class="btn btn-success btn-lg" type="submit" >Update</button>
                                                 
                                             </td>
+											
                                         </form>
                                             <td class="pro-subtotal"><span>৳ {{ $CartGetContent->quantity*$CartGetContent->price}}</span></td>
                                             <td class="pro-remove"><a href="{{ route('remove_item',$CartGetContent->id) }}"><i class="fa fa-trash-o"></i></a></td>
@@ -114,20 +119,22 @@
 									</div>
 								</form>
 							</div>
-							<div class="discount-coupon">
-								<form action="{{ route('remove_cupon') }}" method="get">
-									@csrf
-									<div class="row">
-										<div class="col-md-6 col-12 mb-25">
-											{{-- @if($condition1 !==null)	
-												<input type="text"> --}}
-											<input type="submit" value="Remove Coupon">
+							@if($condition !==null)
+								<div class="discount-coupon">
+									<form action="{{ route('remove_cupon') }}" method="get">
+										@csrf
+										<div class="row">
+											<div class="col-md-6 col-12 mb-25">
+												{{-- @if($condition1 !==null)	
+													<input type="text"> --}}
+												<input type="submit" value="Remove Coupon">
+											</div>
 										</div>
-									</div>
-								</form>
-							</div>
+									</form>
+								</div>
+							@endif	
 							@if(session()->has('error'))
-							<div class="sufee-alert alert with-close alert-success alert-dismissible fade show">
+							<div class="sufee-alert alert with-close alert-danger alert-dismissible fade show">
 								{{ session('error') }}
 								<button type="button" class="close" data-dismiss="alert" aria-label="Close">
 									<span aria-hidden="true">×</span>
@@ -200,7 +207,7 @@
 									{{-- <button class="update-btn"></button> --}}
 								</div>
 								@if(session()->has('message'))
-									<div class="sufee-alert alert with-close alert-success alert-dismissible fade show">
+									<div class="sufee-alert alert with-close alert-danger alert-dismissible fade show">
 										{{ session('message') }}
 										<button type="button" class="close" data-dismiss="alert" aria-label="Close">
 											<span aria-hidden="true">×</span>

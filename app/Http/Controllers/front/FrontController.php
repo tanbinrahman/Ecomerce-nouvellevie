@@ -739,6 +739,7 @@ class FrontController extends Controller
                     "cupon_code"=>$conditionType,
                     "cupon_code"=>$conditionType,
                     "cupon_value"=>$request->cupon_value,
+                    "Shipping_value"=>$request->shipping_value,
                     "order_status"=>1,
                     "payment_status"=>"Pending",
                     "payment_type"=>$request->payment_method,
@@ -760,6 +761,7 @@ class FrontController extends Controller
                     "cupon_code"=>$conditionType,
                     "cupon_code"=>$conditionType,
                     "cupon_value"=>$request->cupon_value,
+                    "Shipping_value"=>$request->shipping_value,
                     "order_status"=>1,
                     "payment_status"=>"Pending",
                     "payment_type"=>$request->payment_method,
@@ -808,6 +810,38 @@ class FrontController extends Controller
         }else{
             return redirect('/');
         }
+    }
+
+
+
+
+    public function order(Request $request){
+        $result['customer'] =DB::table('customers')
+                    ->where(['id'=>$request->session()->get('FRONT_USER_ID')])
+                    ->get();  
+        $result['orders']=DB::table('orders')
+                    ->where(['customer_id'=>$request->session()->get('FRONT_USER_ID')])
+                    ->leftJoin('orders_status','orders_status.id','=','orders.order_status')
+                    ->select('orders.*','orders_status.orders_status')
+                    ->get();
+                    // prx($result);
+        return view('front.myaccount',$result);
+    }
+
+
+
+
+    public function order_details(Request $request ,$id){
+        // echo $id;
+          
+        $result['order_details'] =DB::table('orders_details')
+                ->where(['orders_details.orders_id'=>$id])
+                ->leftJoin('products','products.id','=','orders_details.product_id')
+                ->leftJoin('orders','orders.id','=','orders_details.orders_id')
+                ->select('orders.*','products.name','products.image','orders_details.price','orders_details.weight','orders_details.unit','orders_details.qty')
+                ->get();
+                // prx($result);
+        return view('front.orderdetails',$result);
     }
 
 

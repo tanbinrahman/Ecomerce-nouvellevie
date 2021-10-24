@@ -61,6 +61,12 @@ Route::get('/chekout_page',[FrontController::class,'chekout_page'])->name('cheko
 Route::post('/place_order',[FrontController::class,'place_order']);
 Route::get('/order_placed',[FrontController::class,'order_placed']);
 
+Route::group(['middleware' =>'user_auth'],function(){
+    Route::get('/order',[FrontController::class,'order'])->name('order');
+    Route::get('/order_details/{id}',[FrontController::class,'order_details'])->name('order_details');
+});
+
+
 Route::get('/logout', function () {
     session()->forget('FRONT_USER_LOGIN');
     session()->forget('FRONT_USER_ID');
@@ -73,7 +79,7 @@ Route::get('/logout', function () {
 Route::post('/addCart',[CartController::class,'addCart'])->name('addCart');
 Route::get('/remove_item/{id}',[CartController::class,'remove_item'])->name('remove_item');
 Route::get('/viewCart',[CartController::class,'viewCart'])->name('viewCart');
-Route::post('/updateCart',[CartController::class,'updateCart'])->name('updateCart');
+Route::get('/updateCart',[CartController::class,'updateCart'])->name('updateCart');
 Route::post('/apply_coupon',[CartController::class,'apply_coupon'])->name('apply_coupon');
 Route::post('/shiping_amount',[CartController::class,'shipping'])->name('shipping_amount');
 Route::get('/clear_cart',[CartController::class,'clear_cart'])->name('clear_cart');

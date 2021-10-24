@@ -110,7 +110,9 @@ class CartController extends Controller
 
 
     public function updateCart(Request $request){
-        // return $request->quantity;
+        // echo $id;
+        // die();
+        // return $request->all();
         Cart::update($request->product_id, array(
             'quantity' => array(
                 'relative' => false,

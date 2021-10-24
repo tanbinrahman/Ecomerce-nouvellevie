@@ -8223,3 +8223,31 @@ footer {
   color:#0cae00;
   font-weight:bold;
 }
+
+.order_details{
+  /* float: right; */
+  margin-bottom: 40px;
+  font-weight: bold;
+}
+
+.cupon_apply_txt{
+  font-size: 12px;
+  color: red;
+}
+
+.myaccount{
+  font-size: 20px;
+}
+
+.account_header{
+  font-size: 25px;
+  font-weight: bold;
+  /* border-bottom: 2px solid rgba(0,0,0,.5); */
+  
+}
+.order_header{
+  font-size: 25px;
+  font-weight: bold;
+  border-bottom: 2px solid rgba(0,0,0,.5);
+  margin-bottom: 30px;
+}

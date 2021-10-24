@@ -26,6 +26,7 @@ class CreateOrdersTable extends Migration
             $table->integer('post_code');
             $table->string('cupon_code');
             $table->integer('cupon_value');
+            $table->integer('Shipping_value');
             $table->integer('order_status');
             // $table->integer('payment_type');
             $table->string('payment_status');
