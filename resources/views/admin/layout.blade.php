@@ -179,7 +179,7 @@
 
                         </li>
                         <li class="@yield('order_select')">
-                            <a  href="#">
+                            <a  href="{{ route('order.index') }}">
                             {{-- <a  href=""> --}}
                                 <i class="fas fa-dolly"></i>Order details</a>
 

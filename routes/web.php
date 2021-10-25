@@ -11,6 +11,7 @@ use App\Http\Controllers\admin\CustomerController;
 use App\Http\Controllers\admin\UnitController;
 use App\Http\Controllers\admin\BlogController;
 use App\Http\Controllers\admin\ShippingController;
+use App\Http\Controllers\admin\OrderController;
 
 
 use App\Http\Controllers\front\FrontController;
@@ -127,7 +128,9 @@ Route::group(['middleware' =>'admin_auth'],function(){
     //Shipping Controller 
     Route::resource('admin/shipping', ShippingController::class);
     Route::get('admin/shipping/status/{status}/{id}', [ShippingController::class,'status']);
-
+    //Order Controller
+    Route::get('admin/order',[OrderController::class,'index'])->name('order.index');
+    Route::get('admin/orders_details/{id}',[OrderController::class,'orders_details'])->name('orders_details');
 
 
     Route::get('/admin/logout', function () {

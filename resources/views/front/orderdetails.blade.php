@@ -14,6 +14,7 @@
 					<div class="breadcrumb-container">
 						<ul>
 							<li><a href="{{ route('front.index') }}"><i class="fa fa-home"></i> Home</a></li>
+                            <li><a href="{{ route('order') }}"><i class="fa fa-home"></i> My Account</a></li>
 							<li class="active">Order Details</li>
 						</ul>
 					</div>

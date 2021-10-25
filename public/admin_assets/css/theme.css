@@ -14661,3 +14661,20 @@ section {
 .ml15{
     margin-left: 15px;
 }
+
+.mb-40{
+    margin-bottom: 40px;
+}
+.order_details{
+    line-height: 25px;
+}
+
+.Shipping{
+    border-bottom: 2px solid rgba(0, 0, 0, 0.5);
+    margin-bottom: 25px;
+    /* border-width: 200px; */
+}
+
+.adminorder{
+    background-color: #f8f9fa;
+}

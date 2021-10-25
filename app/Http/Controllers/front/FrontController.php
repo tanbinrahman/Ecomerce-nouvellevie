@@ -839,8 +839,12 @@ class FrontController extends Controller
                 ->leftJoin('products','products.id','=','orders_details.product_id')
                 ->leftJoin('orders','orders.id','=','orders_details.orders_id')
                 ->select('orders.*','products.name','products.image','orders_details.price','orders_details.weight','orders_details.unit','orders_details.qty')
+                ->where(['orders.customer_id'=>$request->session()->get('FRONT_USER_ID')])
                 ->get();
                 // prx($result);
+                if(!isset($result['order_details'][0])){
+                    return redirect('/');
+                }
         return view('front.orderdetails',$result);
     }
 
