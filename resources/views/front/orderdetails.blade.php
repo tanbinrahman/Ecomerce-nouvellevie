@@ -41,10 +41,19 @@
                     </div>
                 </div>
                 <div class="col-md-6">
-                    
+                    <div class="order_detail">
+                        <h3>Order Details</h3>
+                         Order Status: {{$order_details[0]->orders_status}}<br>
+                         Payment Status: {{$order_details[0]->payment_status}}<br>
+                         Payment Type: {{$order_details[0]->payment_type}}<br>
+                    </div>
+                         @if($order_details[0]->track_details!='')
+                        <b>track_details</b> : <br> {{$order_details[0]->track_details}}
+                         @endif  
                 </div>
+                
                 <div class="col-12">
-
+                    <h3>Product Details</h3>
                     <form action="#">
                         <div class="cart-table table-responsive mb-40">
                             <table class="table">

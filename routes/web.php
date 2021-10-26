@@ -131,6 +131,9 @@ Route::group(['middleware' =>'admin_auth'],function(){
     //Order Controller
     Route::get('admin/order',[OrderController::class,'index'])->name('order.index');
     Route::get('admin/orders_details/{id}',[OrderController::class,'orders_details'])->name('orders_details');
+    Route::get('admin/update_payment_status/{status}/{id}',[OrderController::class,'update_payment_status']);
+    Route::get('admin/update_order_status/{status}/{id}',[OrderController::class,'update_order_status']);
+    Route::post('admin/orders_details/{id}',[OrderController::class,'update_track_details']);
 
 
     Route::get('/admin/logout', function () {

@@ -14678,3 +14678,9 @@ section {
 .adminorder{
     background-color: #f8f9fa;
 }
+
+.order_operation{
+    background-color: white;
+    padding: 30px;
+    margin-top: 20px;
+}

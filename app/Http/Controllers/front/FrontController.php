@@ -823,7 +823,8 @@ class FrontController extends Controller
                     ->where(['customer_id'=>$request->session()->get('FRONT_USER_ID')])
                     ->leftJoin('orders_status','orders_status.id','=','orders.order_status')
                     ->select('orders.*','orders_status.orders_status')
-                    ->get();
+                    ->orderBy('orders.id','desc')
+                    ->simplePaginate(10);
                     // prx($result);
         return view('front.myaccount',$result);
     }
@@ -838,7 +839,8 @@ class FrontController extends Controller
                 ->where(['orders_details.orders_id'=>$id])
                 ->leftJoin('products','products.id','=','orders_details.product_id')
                 ->leftJoin('orders','orders.id','=','orders_details.orders_id')
-                ->select('orders.*','products.name','products.image','orders_details.price','orders_details.weight','orders_details.unit','orders_details.qty')
+                ->leftJoin('orders_status','orders_status.id','=','orders.order_status')
+                ->select('orders.*','products.name','products.image','orders_details.price','orders_details.weight','orders_details.unit','orders_details.qty','orders_status.orders_status')
                 ->where(['orders.customer_id'=>$request->session()->get('FRONT_USER_ID')])
                 ->get();
                 // prx($result);

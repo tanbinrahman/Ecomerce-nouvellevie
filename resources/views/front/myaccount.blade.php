@@ -109,6 +109,9 @@
                         </table>
                     </div>
                 </form>  
+                <div class="pagination justify-content-center">
+                    {{$orders->links()}}
+                </div>
             </div>
         </div>   
     </div>
