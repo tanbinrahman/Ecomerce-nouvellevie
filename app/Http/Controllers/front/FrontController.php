@@ -39,7 +39,17 @@ class FrontController extends Controller
         // die();                  
         $result['categories'] =DB::table('categories')
                             ->where(['status'=>1])
-                            ->get();  
+                            ->get();
+          foreach($result['categories'] as $list4){
+          $result['categories_quantity'][$list4->id] =DB::table('products')
+                                ->where(['products.category_id'=>$list4->id])
+                                ->where(['status'=>1])
+                                ->count();
+          }                  
+                            
+        // echo '<pre>';
+        // print_r($result);
+        // die();                     
         $result['products'] =DB::table('products')
                             ->where(['status'=>1])
                             ->get();
