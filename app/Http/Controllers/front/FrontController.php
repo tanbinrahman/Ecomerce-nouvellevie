@@ -423,6 +423,7 @@ class FrontController extends Controller
                 'Mobile_number'=>$request->Mobile_number,
                 'password'=>Crypt::encrypt($request->password),
                 'is_verify'=>0,
+                'is_forgot_password'=>0,
                 'rand_id'=>$rand_id,
                 'status'=>1,
                 'created_at'=>date('Y-m-d h:i:s'),

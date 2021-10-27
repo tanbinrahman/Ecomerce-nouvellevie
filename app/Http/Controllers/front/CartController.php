@@ -34,35 +34,56 @@ class CartController extends Controller
         ->where(['units.unit'=>$request->unit])
         ->get();
 
+        $order_qty =DB::table('orders_details')
+            ->where(['orders_details.product_id'=>$request->product_id])
+            ->leftJoin('orders','orders.id','=','orders_details.orders_id')
+            ->select('orders_details.qty')
+            ->sum('orders_details.qty');
+        // prx($order_qty);    
+        // die();
         // prx($product_attr[0]->id);
-        if($request->weight!==null){
-            Cart::add([
-                // 'product_id' =>$request->product_id ,
-                // 'product_attr_id' =>$product_attr[0]->id ,
-                // 'name' => $request->name ,
-                // 'price' => $request->price,
-                // 'weight' => $request->weight,
-                // 'unit' => $request->unit,
-                // 'quantity' => $request->quantity,
-                // 'image' => $request->image,
-                // 'added_on' =>date('Y-m-d h:i:s'),
-                'id' => $request->product_id ,
-                'name' => $request->name ,
-                'price' => $request->price,
-                'quantity' => $request->quantity,
-                'attributes' => [
-                    'product_attr_id' =>$product_attr[0]->id ,
-                    'weight' => $request->weight,
-                    'unit' => $request->unit,
-                    'image' => $request->image,
-                    'added_on' =>date('Y-m-d h:i:s'),
-                ]
+        $product_qty = DB::table('products')
+            ->where(['products.id'=>$request->product_id])
+            ->select('products.quantity')
+            ->get();
+        // prx($product_qty[0]->quantity); 
+        // die();
+        // if()
+        $available_qty =$product_qty[0]->quantity-$order_qty;
+        // prx($available_qty);    
+        // die();
+        if($request->quantity<$available_qty){
+            if($request->weight!==null){
+                Cart::add([
+                    // 'product_id' =>$request->product_id ,
+                    // 'product_attr_id' =>$product_attr[0]->id ,
+                    // 'name' => $request->name ,
+                    // 'price' => $request->price,
+                    // 'weight' => $request->weight,
+                    // 'unit' => $request->unit,
+                    // 'quantity' => $request->quantity,
+                    // 'image' => $request->image,
+                    // 'added_on' =>date('Y-m-d h:i:s'),
+                    'id' => $request->product_id ,
+                    'name' => $request->name ,
+                    'price' => $request->price,
+                    'quantity' => $request->quantity,
+                    'attributes' => [
+                        'product_attr_id' =>$product_attr[0]->id ,
+                        'weight' => $request->weight,
+                        'unit' => $request->unit,
+                        'image' => $request->image,
+                        'added_on' =>date('Y-m-d h:i:s'),
+                    ]
 
-            ]);
+                ]);
 
+            }else{
+                $request->session()->flash('error','Please select any  weight of this product.');
+            }
         }else{
-            $request->session()->flash('error','Please select any  weight of this product.');
-        }  
+            $request->session()->flash('error','Your selected product quantity is more than stocks.Please reduce the products  quantity.... ');
+        }      
         
         // return redirect()->back();
         return back();
