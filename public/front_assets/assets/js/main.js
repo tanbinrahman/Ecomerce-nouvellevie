@@ -968,8 +968,14 @@
 		  /*--
 		Price range
 		-----------------------------------*/
-
+		// var filter_price_start =jQuery('#filter_price_start').val();
+		// var filter_price_end =jQuery('#filter_price_end').val();
+		// if(filter_price_start=='' || filter_price_end==''){
+		//    var filter_price_start =25;
+		//    var filter_price_end =970;
+		// };
 		$('#price-range').slider({
+
 			range: true,
 			min: 0,
 			max: 2000,
@@ -1157,3 +1163,16 @@ jQuery('#frmPlaceOrder').submit(function(e){
 		}
 	});
 });
+
+
+
+function sort_price_filter(){
+	// var start =jQuery('#price-range').slider( 'values', 0 );
+	// var end =jQuery('#price-range').slider( 'values', 1 );
+	// alert(start+'--'+end);
+
+	jQuery('#filter_price_start').val(jQuery('#price-range').slider( 'values', 0 ));
+	jQuery('#filter_price_end').val(jQuery('#price-range').slider( 'values', 1 ));
+
+	jQuery('#productFilter').submit();
+}

@@ -235,6 +235,14 @@ class FrontController extends Controller
                 $query =$query->orderBy('products_attr.offer_price','desc');
                 $sort_text ="Price-Desc";
             }
+            if($request->get('filter_price_start')!==null && $request->get('filter_price_end')!==null){
+                $filter_price_start =$request->get('filter_price_start');
+                $filter_price_end =$request->get('filter_price_end');
+                // prx($filter_price_start);
+                if($filter_price_start>=0 && $filter_price_end>0){
+                  $query= $query->whereBetween('products_attr.offer_price',[$filter_price_start,$filter_price_end]);
+                }
+              }
             $query= $query->simplePaginate(9);
         $result['products'] = $query;          
         foreach($result['products'] as $list1){
@@ -256,6 +264,8 @@ class FrontController extends Controller
         
         $result['sort']=$sort;
         $result['sort_text']=$sort_text;
+        // $result['filter_price_start']=$filter_price_start;
+        // $result['filter_price_end']=$filter_price_end;
         // echo '<pre>';
         // print_r($result);
         // die();
