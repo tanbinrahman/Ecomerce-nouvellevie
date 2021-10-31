@@ -23,7 +23,7 @@ class CreateProductsTable extends Migration
             $table->longText('description');
             $table->integer('is_featured');
             $table->integer('is_discount');
-            $table->integer('quantity');
+            $table->float('quantity');
             $table->string('sku');
             $table->integer('status');
             $table->timestamps();

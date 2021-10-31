@@ -805,6 +805,35 @@ class FrontController extends Controller
                     $productDetailArr['price']=$product_detail->price;
                     $productDetailArr['qty']=$product_detail->quantity;
                     DB::table('orders_details')->insertGetId($productDetailArr);
+
+                    $pqty =DB::table('products')
+                    ->where(['id'=>$product_detail->id])
+                       ->select('products.quantity')
+                       ->get();
+                    // prx($pqty[0]->quantity);
+                    // die();
+                    if($product_detail->attributes->unit=='kg'){
+                        $result =DB::table('products')
+                        ->where(['id'=>$product_detail->id])
+                        ->update([
+                            'quantity'=>$pqty[0]->quantity-$product_detail->quantity,
+                            
+                        ]);
+                    }else{
+                        // prx($product_detail->attributes->weight);
+                        $oweight=$product_detail->attributes->weight*$product_detail->quantity;
+                        $oqty =$oweight/1000;
+                        // prx($oqty);
+                        // die();
+                        $result =DB::table('products')
+                        ->where(['id'=>$product_detail->id])
+                        ->update([
+                            'quantity'=>$pqty[0]->quantity-$oqty,
+                            
+                        ]);
+                    }
+
+
                 }
                 Cart::clear();
                 Cart::clearCartConditions();
