@@ -20,6 +20,7 @@ class CreatePromoBannersTable extends Migration
             $table->string('url');
             $table->string('image');
             $table->integer('category_id');
+            $table->smallInteger('pro_banner_priority');
             $table->integer('status');
             $table->timestamps();
         });

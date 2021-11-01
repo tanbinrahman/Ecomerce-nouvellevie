@@ -55,13 +55,34 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label for="image" class="control-label mb-1">Promotional Banner Image</label>
-                                <input id="image" name="image" type="file" class="form-control" aria-required="true" aria-invalid="false" >
-                                @error('image')
-                                    <div class="alert alert-danger">
-                                        {{ $message }}
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <label for="image" class="control-label mb-1">Promotional Banner Image</label>
+                                        <input id="image" name="image" type="file" class="form-control" aria-required="true" aria-invalid="false" >
+                                        @error('image')
+                                            <div class="alert alert-danger">
+                                                {{ $message }}
+                                            </div>
+                                        @enderror
                                     </div>
-                                @enderror
+                                    <div class="col-md-6">
+                                        <label for="pro_banner_priority" class="control-label mb-1">Promotion Banner Priority</label>
+                                        <select id="pro_banner_priority" name="pro_banner_priority" type="text" class="form-control" aria-required="true" aria-invalid="false" required>
+                                            <option value="">Select any Priority value</option>
+                                            @foreach([1,2,3,4] as $key =>$sm)
+                                            <option
+                                                value="{{$sm}}">Priority: {{$sm}}</option>
+                                             @endforeach
+                                        </select>
+                                        
+                                        @error('pro_banner_priority')
+                                            <div class="alert alert-danger">
+                                                {{ $message }}
+                                            </div>
+                                        @enderror 
+                                    </div>
+                                </div>
+
                             </div>
                             <div class="form-group">
                                 <label for="category_id" class="control-label mb-1">Select Category</label>

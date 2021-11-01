@@ -28,13 +28,20 @@
                   Sign up for our newsletter to get up-to-date from us
                 </p>
                 <div class="subscription-form">
-                  <form id="mc-form" class="mc-form subscribe-form">
+                  <form action="{{ route('newsletter') }}" method="POST" >
+                    @csrf
                     <input
                       type="email"
                       id="mc-email"
-                      autocomplete="off"
+                      name="n_email"
+                      {{-- autocomplete="off" --}}
                       placeholder="Your email address"
                     />
+                      @error('n_email')
+                        <div class="alert alert-danger">
+                            {{ $message }}
+                        </div>
+                      @enderror
                     <button id="mc-submit" type="submit">subscribe!</button>
                   </form>
 

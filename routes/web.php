@@ -62,6 +62,8 @@ Route::get('/chekout_page',[FrontController::class,'chekout_page'])->name('cheko
 Route::post('/place_order',[FrontController::class,'place_order']);
 Route::get('/order_placed',[FrontController::class,'order_placed']);
 
+Route::post('/newsletter',[FrontController::class,'newsletter'])->name('newsletter');
+
 Route::group(['middleware' =>'user_auth'],function(){
     Route::get('/order',[FrontController::class,'order'])->name('order');
     Route::get('/order_details/{id}',[FrontController::class,'order_details'])->name('order_details');

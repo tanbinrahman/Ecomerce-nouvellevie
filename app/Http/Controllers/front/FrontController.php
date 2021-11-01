@@ -24,9 +24,11 @@ class FrontController extends Controller
  
         $result['banners'] =DB::table('banners')
                             ->where(['status'=>1])
+                            ->orderBy('banners.banner_priority','asc')
                             ->get();
         $result['promo__banners'] =DB::table('promo__banners')
                             ->where(['status'=>1])
+                            ->orderBy('promo__banners.pro_banner_priority','asc')
                             ->take(2)->get();
         foreach($result['promo__banners'] as $list){
             $result['promo__banners_category'][$list->id] =DB::table('categories')
@@ -898,6 +900,24 @@ class FrontController extends Controller
                     return redirect('/');
                 }
         return view('front.orderdetails',$result);
+    }
+
+
+    public function newsletter(Request $request){
+        // prx($_POST);
+        // return $request->post('n_email');
+        // die();
+        $request->validate([
+            
+            'n_email'=>'email|unique:news_letters,n_email', 
+        ]);
+        $arr =[
+            'n_email' =>$request->post('n_email')
+        ];
+
+        DB::table('news_letters')->insert($arr);
+
+        return back();
     }
 
 

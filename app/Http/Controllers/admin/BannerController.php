@@ -31,6 +31,7 @@ class BannerController extends Controller
             'title' =>'required',
             'slug' =>'required',
             'url' =>'required',
+            'banner_priority' =>'required|unique:banners',
             
         ]);
 
@@ -48,6 +49,7 @@ class BannerController extends Controller
         $banner->title =$request->post('title');
         $banner->slug =$request->post('slug');
         $banner->url =$request->post('url');
+        $banner->banner_priority =$request->post('banner_priority');
         $banner->status = 1;
         $banner->save();
         session()->flash('success','Banner inserted successfully.');
@@ -62,6 +64,7 @@ class BannerController extends Controller
             $result['title']  = $arr['0']->title; 
             $result['url']  = $arr['0']->url;
             $result['slug']  = $arr['0']->slug;
+            $result['banner_priority']  = $arr['0']->banner_priority;
             $result['id']  =  $arr['0']->id; 
        }
 
@@ -72,6 +75,7 @@ class BannerController extends Controller
     {
         $request->validate([
             'image' =>'mimes:jpg,jpeg,png',
+            'banner_priority' =>'required|unique:banners,banner_priority,'.$id,
             
         ]);
 
@@ -93,6 +97,7 @@ class BannerController extends Controller
         $banner->title =$request->post('title');
         $banner->slug =$request->post('slug');
         $banner->url =$request->post('url');
+        $banner->banner_priority =$request->post('banner_priority');
         $banner->save();
         session()->flash('success','Banner Updated successfully.');
         return redirect()->route('banner.index');

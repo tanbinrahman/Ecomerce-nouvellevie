@@ -78,7 +78,7 @@ style="background-color: #9ae694"
             <div class="contact-info">
               <p>
                 Address:
-                <span>123 New Design Str, Melbourne, Australia</span>
+                <span>08, House : 140, Block : E, Beside the Kalshi fruit market, Pallabi, Mirpur 11,Dhaka,Bangladesh</span>
               </p>
             </div>
           </div>
@@ -103,7 +103,7 @@ style="background-color: #9ae694"
               <span class="icon_mail_alt"></span>
             </div>
             <div class="contact-info">
-              <p>Email: <span>support@hastech.company</span></p>
+              <p>Email: <span>info@nouvellevie.net</span></p>
             </div>
           </div>
 

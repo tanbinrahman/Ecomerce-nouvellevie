@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\admin\Admin;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\DB;
 
 class AdminController extends Controller
 {
@@ -61,7 +62,25 @@ class AdminController extends Controller
 
     public function dashboard()
     {
-        return view('admin.dashboard');
+        $result['count_product'] =DB::table('products')           
+                ->where(['products.status'=>1])
+                ->count('id'); 
+        $result['count_orders'] =DB::table('orders')           
+                ->where(['orders.payment_type'=>'COD'])
+                ->count('orders.id'); 
+        $result['count_categories'] =DB::table('categories')           
+                ->where(['categories.status'=>1])
+                ->count('id');  
+        $result['Total_earn'] =DB::table('orders')           
+                ->where(['orders.payment_status'=>'Success'])
+                ->sum('orders.total_amount');           
+        //  prx($result);    
+        $result['orders']=DB::table('orders')
+        ->leftJoin('orders_status','orders_status.id','=','orders.order_status')
+        ->select('orders.*','orders_status.orders_status')
+        ->orderBy('orders.id','desc')
+        ->take(10)->get();            
+        return view('admin.dashboard',$result);
     }
 
 }

@@ -16,9 +16,9 @@
               <a href="#">Term and conditions</a>
             </p>
             <p class="copyright-text">
-              <span style="color: #ffffff">&copy; 2021</span>
+              {{-- <span style="color: #ffffff">&copy; 2021</span>
               <a href="#">Nouvellie vie</a>
-              <span style="color: #ffffff">. All Rights Reserved</span>
+              <span style="color: #ffffff">. All Rights Reserved</span> --}}
             </p>
           </div>
 
@@ -29,12 +29,16 @@
 
           <div class="payment-info text-center text-md-right">
             <p>
-              Allow payment base on
+              {{-- Allow payment base on
               <img
                 src="{{asset('front_assets/assets/images/payment-icon.png')}}"
                 class="img-fluid"
                 alt=""
-              />
+              /> --}}
+              <span style="color: #ffffff">&copy; 2021</span>
+              <a style="color: #ffffff" href="#">Nouvellie vie</a>
+              <span style="color: #ffffff">. All Rights Reserved</span>
+
             </p>
           </div>
 

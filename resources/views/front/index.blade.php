@@ -98,7 +98,7 @@
                         <h3>
                         <a href="{{ route('product.category_filter',$category->category_slug) }}"> {{ $category->category_name }}</a>
                         </h3>
-                        <h6>Number of Product:{{ $categories_quantity[$category->id] }}</h6>
+                        <h5>{{ $categories_quantity[$category->id] }} Items</h5>
                     </div>
                     </div>  
                     <!--=======  End of single category  =======-->

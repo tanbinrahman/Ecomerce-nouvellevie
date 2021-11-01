@@ -46,7 +46,7 @@ class PromoBannerController extends Controller
         $request->validate([
             'image' =>'required|mimes:jpg,jpeg,png',
             'category_id'=>'required',
-            
+            'pro_banner_priority' =>'required|unique:promo__banners',
         ]);
 
         $promotion = new Promo_Banner();
@@ -64,6 +64,7 @@ class PromoBannerController extends Controller
         $promotion->slug =$request->post('slug');
         $promotion->url =$request->post('url');
         $promotion->category_id =$request->post('category_id');
+        $promotion->pro_banner_priority =$request->post('pro_banner_priority');
         $promotion->status = 1;
         $promotion->save();
         session()->flash('success','promotional banner inserted successfully.');
@@ -96,6 +97,7 @@ class PromoBannerController extends Controller
                 $result['url']  = $arr['0']->url;
                 $result['image']  = $arr['0']->image;
                 $result['category_id']  = $arr['0']->category_id;
+                $result['pro_banner_priority']  = $arr['0']->pro_banner_priority;
                 $result['id']  =  $arr['0']->id; 
            }
     
@@ -118,7 +120,7 @@ class PromoBannerController extends Controller
         $request->validate([
             'image' =>'mimes:jpg,jpeg,png',
             'category_id'=>'required',
-            
+            'pro_banner_priority' =>'required|unique:promo__banners,pro_banner_priority,'.$id
         ]);
 
         $promotion =Promo_Banner::find($id);
@@ -146,6 +148,7 @@ class PromoBannerController extends Controller
         $promotion->slug =$request->post('slug');
         $promotion->url =$request->post('url');
         $promotion->category_id =$request->post('category_id');
+        $promotion->pro_banner_priority =$request->post('pro_banner_priority');
         $promotion->save();
         session()->flash('success','promotional banner updated successfully.');
         return redirect()->route('promo_banner.index');
