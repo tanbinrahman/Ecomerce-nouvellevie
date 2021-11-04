@@ -259,6 +259,12 @@ class FrontController extends Controller
         $result['categoryes'] =DB::table('categories')
                               ->where(['status'=>1])
                               ->get();
+        foreach($result['categoryes'] as $list4){
+        $result['categories_quantity'][$list4->id] =DB::table('products')
+                                ->where(['products.category_id'=>$list4->id])
+                                ->where(['status'=>1])
+                                ->count();
+        }                       
 
         $result['count_product'] =DB::table('products')           
                               ->where(['products.status'=>1])
@@ -307,6 +313,14 @@ class FrontController extends Controller
                 $query =$query->orderBy('products_attr.offer_price','desc');
                 $sort_text ="Price-Desc";
             }
+            if($request->get('filter_price_start')!==null && $request->get('filter_price_end')!==null){
+                $filter_price_start =$request->get('filter_price_start');
+                $filter_price_end =$request->get('filter_price_end');
+                // prx($filter_price_start);
+                if($filter_price_start>=0 && $filter_price_end>0){
+                  $query= $query->whereBetween('products_attr.offer_price',[$filter_price_start,$filter_price_end]);
+                }
+              }
             $query= $query->simplePaginate(9);
         $result['products'] = $query;         
         foreach($result['products'] as $list1){
@@ -858,6 +872,25 @@ class FrontController extends Controller
 
     public function order_placed(Request $request){
         if($request->session()->has('ORDER_ID')){
+            $result['order_info'] =DB::table('orders')
+                        ->where(['id'=>$request->session()->get('ORDER_ID')])
+                        ->get();
+
+            // prx($result['order_info'][0]);
+            // die();            
+            $name =$result['order_info'][0]->first_name.' '.$result['order_info'][0]->last_name;
+            $data=['name'=>$name,'total_amount'=>$result['order_info'][0]->total_amount,'shipping_value' =>$result['order_info'][0]->Shipping_value,
+                    'payment_Status'=>$result['order_info'][0]->payment_status,'payment_type'=>$result['order_info'][0]->payment_type,
+                    'address'=>$result['order_info'][0]->address,'town'=>$result['order_info'][0]->town,
+                    'district'=>$result['order_info'][0]->district,'post_code'=>$result['order_info'][0]->post_code,
+                    'mobile'=>$result['order_info'][0]->mobile,'eamil'=>$result['order_info'][0]->eamil
+                ];
+            $user['to']=$result['order_info'][0]->eamil;
+            Mail::send('front/order_info',$data,function($messages) use ($user){
+              $messages->to($user['to']);
+              $messages->subject('Order Details');
+            });
+
             return view('front.order_placed');
         }else{
             return redirect('/');

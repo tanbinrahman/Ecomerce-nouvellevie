@@ -34,11 +34,11 @@ class CartController extends Controller
         ->where(['units.unit'=>$request->unit])
         ->get();
 
-        $order_qty =DB::table('orders_details')
-            ->where(['orders_details.product_id'=>$request->product_id])
-            ->leftJoin('orders','orders.id','=','orders_details.orders_id')
-            ->select('orders_details.qty')
-            ->sum('orders_details.qty');
+        // $order_qty =DB::table('orders_details')
+        //     ->where(['orders_details.product_id'=>$request->product_id])
+        //     ->leftJoin('orders','orders.id','=','orders_details.orders_id')
+        //     ->select('orders_details.qty')
+        //     ->sum('orders_details.qty');
         // prx($order_qty);    
         // die();
         // prx($product_attr[0]->id);
@@ -49,10 +49,10 @@ class CartController extends Controller
         // prx($product_qty[0]->quantity); 
         // die();
         // if()
-        $available_qty =$product_qty[0]->quantity-$order_qty;
+        // $available_qty =$product_qty[0]->quantity-$order_qty;
         // prx($available_qty);    
         // die();
-        if($request->quantity<$available_qty){
+        if($request->quantity<$product_qty[0]->quantity){
             if($request->weight!==null){
                 Cart::add([
                     // 'product_id' =>$request->product_id ,

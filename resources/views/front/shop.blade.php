@@ -53,7 +53,7 @@
 							<ul class="product-categories">
                                 @foreach ($categoryes as $category)
 								{{-- <li><a class="active" href="shop-left-sidebar.html">Beans</a></li> --}}
-								<li><a  href="{{ route('product.category_filter',$category->category_slug) }}">{{ $category->category_name }}</a></li>
+								<li><a  href="{{ route('product.category_filter',$category->category_slug) }}">{{ $category->category_name }} ({{ $categories_quantity[$category->id] }})</a></li>
                                 
                                 @endforeach
 							</ul>
@@ -144,7 +144,7 @@
                                             <img src="{{asset('storage/media/product/'.$product->image)}}" class="img-fluid" alt="">
                                         </a>
                                         <div class="product-hover-icons">
-                                            <a href="#" data-tooltip="Add to cart"> <span class="icon_cart_alt"></span></a>
+                                            <a href="{{ route('product.view',$product->slug) }}" data-tooltip="Add to cart"> <span class="icon_cart_alt"></span></a>
                                             <a href="#" data-tooltip="Add to wishlist"> <span class="icon_heart_alt"></span> </a>
                                             {{-- <a href="#" data-tooltip="Compare"> <span class="arrow_left-right_alt"></span> </a>
                                             <a href="#" data-tooltip="Quick view" data-toggle="modal" data-target="#quick-view-modal-container">
@@ -192,7 +192,7 @@
                                         </div>
                                         <p class="product-description">{{ $product->short_desc }}</p>
                                         <div class="list-product-icons">
-                                            <a href="#" data-tooltip="Add to cart"> <span class="icon_cart_alt"></span></a>
+                                            <a href="{{ route('product.view',$product->slug) }}" data-tooltip="Add to cart"> <span class="icon_cart_alt"></span></a>
                                             <a href="#" data-tooltip="Add to wishlist"> <span class="icon_heart_alt"></span> </a>
                                             {{-- <a href="#" data-tooltip="Compare"> <span class="arrow_left-right_alt"></span> </a> --}}
                                         </div>

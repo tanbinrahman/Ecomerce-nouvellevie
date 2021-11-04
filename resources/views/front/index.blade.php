@@ -150,7 +150,7 @@
                         />
                       </a>
                       <div class="product-hover-icons">
-                        <a class="active" href="#" data-tooltip="Add to cart">
+                        <a class="active" href="{{ route('product.view',$product->slug) }}" data-tooltip="Add to cart">
                           <span class="icon_cart_alt"></span
                         ></a>
                         <a href="#" data-tooltip="Add to wishlist">
@@ -236,7 +236,7 @@
                         />
                       </a>
                       <div class="product-hover-icons">
-                        <a class="active" href="#" data-tooltip="Add to cart">
+                        <a class="active" href="{{ route('product.view',$product->slug) }}" data-tooltip="Add to cart">
                           <span class="icon_cart_alt"></span
                         ></a>
                         <a href="#" data-tooltip="Add to wishlist">

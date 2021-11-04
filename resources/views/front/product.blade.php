@@ -265,7 +265,7 @@
                                         <img src="{{ asset('storage/media/product/'.$product_rel->image) }}" class="img-fluid" alt="">
                                     </a>
                                     <div class="product-hover-icons">
-                                        <a href="#" data-tooltip="Add to cart"> <span class="icon_cart_alt"></span></a>
+                                        <a href="{{ route('product.view',$product_rel->slug) }}" data-tooltip="Add to cart"> <span class="icon_cart_alt"></span></a>
                                         <a href="#" data-tooltip="Add to wishlist"> <span class="icon_heart_alt"></span>
                                         </a>
                                         {{-- <a href="#" data-tooltip="Compare"> <span class="arrow_left-right_alt"></span> </a>
@@ -341,7 +341,7 @@
                                         <img src="{{ asset('storage/media/product/'.$product_rel->image) }}" class="img-fluid" alt="">
                                     </a>
                                     <div class="product-hover-icons">
-                                        <a href="#" data-tooltip="Add to cart"> <span class="icon_cart_alt"></span></a>
+                                        <a href="{{ route('product.view',$product_rel->slug) }}" data-tooltip="Add to cart"> <span class="icon_cart_alt"></span></a>
                                         <a href="#" data-tooltip="Add to wishlist"> <span class="icon_heart_alt"></span>
                                         </a>
                                         {{-- <a href="#" data-tooltip="Compare"> <span class="arrow_left-right_alt"></span> </a>

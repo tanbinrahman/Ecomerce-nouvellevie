@@ -56,11 +56,19 @@
 
 						<!--=======  single sidebar  =======-->
 
+						{{-- <div class="sidebar mb-35">
+							<h3 class="sidebar-title">Filter By Price</h3>
+							<div class="sidebar-price">
+								<div id="price-range"></div>
+								<input type="text" id="price-amount" readonly>
+							</div>
+						</div> --}}
 						<div class="sidebar mb-35">
 							<h3 class="sidebar-title">Filter By Price</h3>
 							<div class="sidebar-price">
 								<div id="price-range"></div>
 								<input type="text" id="price-amount" readonly>
+								<button class="aa-filter-btn" type="button" onclick="sort_price_filter()">Filter</button>
 							</div>
 						</div>
 
@@ -214,5 +222,7 @@
 	<!--=====  End of Shop page container  ======-->
 <form id="productFilter">
 	<input type="text" id="sort" name="sort" value="{{ $sort }}"/>
+	<input type="hidden" id="filter_price_start" name="filter_price_start"   /> 
+	<input type="hidden" id="filter_price_end" name="filter_price_end"   /> 
 </form>	
 @endsection

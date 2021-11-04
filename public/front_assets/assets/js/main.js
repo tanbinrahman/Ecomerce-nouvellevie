@@ -1176,3 +1176,5 @@ function sort_price_filter(){
 
 	jQuery('#productFilter').submit();
 }
+
+

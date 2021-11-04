@@ -35,10 +35,10 @@
                   <li><a href="{{ route('order') }}">My account</a></li>
                 @endif
 
-                  <li><a href="wishlist.html">Wishlist</a></li>
+                  {{-- <li><a href="wishlist.html">Wishlist</a></li> --}}
 
                 @if(session()->has('FRONT_USER_LOGIN')!=null)
-                  <li><a href="checkout.html">Checkout</a></li>
+                  <li><a href="{{ route('chekout_page') }}">Checkout</a></li>
                 @endif
                 @if(session()->has('FRONT_USER_LOGIN')!=null)
                   <li><a href="{{ url('/logout') }}">Logout</a></li>
@@ -69,7 +69,7 @@
           >
             <!-- logo -->
             <div class="logo mt-15 mb-15">
-              <a href="index.html">
+              <a href="{{ route('front.index') }}">
                 <img src="{{asset('front_assets/assets/images/logo.png')}}" class="img-fluid" alt="" />
               </a>
             </div>
@@ -142,9 +142,10 @@
                         </div>
                         <div class="cart-float-single-item-desc">
                           <p class="product-title">
-                            <a href="single-product.html"
+                            {{-- <a href="single-product.html"
                               >{{ $CartGetContent->name }}</a
-                            >
+                            > --}}
+                            {{ $CartGetContent->name }}
                           </p>
                           <p class="price">
                             <span class="count">{{ $CartGetContent->quantity }}x</span> ৳{{ $CartGetContent->price }} 
