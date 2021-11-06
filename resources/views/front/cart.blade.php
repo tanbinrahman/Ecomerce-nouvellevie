@@ -182,6 +182,14 @@
 							<!--=======  Cart summery  =======-->
 
 							<div class="cart-summary">
+								@if(session()->has('message'))
+									<div class="sufee-alert alert with-close alert-danger alert-dismissible fade show">
+										{{ session('message') }}
+										<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+											<span aria-hidden="true">×</span>
+										</button>
+									</div>
+								@endif
 								<div class="cart-summary-wrap">
 									<h4>Cart Summary</h4>
 									{{-- @if($condition !==null)
@@ -206,14 +214,7 @@
 									
 									{{-- <button class="update-btn"></button> --}}
 								</div>
-								@if(session()->has('message'))
-									<div class="sufee-alert alert with-close alert-danger alert-dismissible fade show">
-										{{ session('message') }}
-										<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-											<span aria-hidden="true">×</span>
-										</button>
-									</div>
-								@endif
+
 							</div>
 
 							<!--=======  End of Cart summery  =======-->

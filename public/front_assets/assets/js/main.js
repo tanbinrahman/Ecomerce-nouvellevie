@@ -1178,3 +1178,16 @@ function sort_price_filter(){
 }
 
 
+jQuery('#newssubscribe').submit(function(e){
+	e.preventDefault();
+	jQuery('#newssubscribe_msg').html("");
+	jQuery.ajax({
+	  url:'/newsletter',
+	  data:jQuery('#newssubscribe').serialize(),
+	  type:'post',
+	  success:function(result){
+		jQuery('#newssubscribe_msg').html(result.msg);
+	  }
+	});
+});
+

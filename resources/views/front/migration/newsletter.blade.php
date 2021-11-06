@@ -28,7 +28,8 @@
                   Sign up for our newsletter to get up-to-date from us
                 </p>
                 <div class="subscription-form">
-                  <form action="{{ route('newsletter') }}" method="POST" >
+                  {{-- <form action="{{ route('newsletter') }}" method="POST" > --}}
+                  <form action="" id="newssubscribe">
                     @csrf
                     <input
                       type="email"
@@ -43,8 +44,10 @@
                         </div>
                       @enderror
                     <button id="mc-submit" type="submit">subscribe!</button>
+                    <br> <br>
+                    <div id="newssubscribe_msg"> </div>
                   </form>
-
+                  
                   <!-- mailchimp-alerts Start -->
                   <div class="mailchimp-alerts">
                     <div class="mailchimp-submitting"></div>

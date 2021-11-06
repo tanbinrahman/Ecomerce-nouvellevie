@@ -4,13 +4,19 @@ namespace App\Http\Controllers\front;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Models\SMSClient;
+use App\Models\Otpmodel;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\validator;
+use Illuminate\Support\Facades\validate;
 use Illuminate\Support\Str;
+use Session;
 use Crypt;
 use Mail;
 use Cart;
+// use Illuminate\Contracts\Session\Session;
 
 class FrontController extends Controller
 {
@@ -436,10 +442,64 @@ class FrontController extends Controller
 
 
 
+    // public function registration_process(Request $request){
+    //     // prx($_POST);
+    //     // return $request->all();
+    //     $valid =validator::make($request->all(),[
+    //         'first_name' => 'required',
+    //         'last_name' => 'required',
+    //         'email' => 'required|email|unique:customers,email',
+    //         'Mobile_number' => 'required|numeric|digits:11|unique:customers,Mobile_number',
+    //         'password' => 'required',
+            
+    //     ]);
+
+    //     if(!$valid->passes()){
+    //         return response()->json(['status'=>'error','error'=>$valid->errors()->toArray()]);
+    //     }else{
+    //         $rand_id =rand(111111111 ,999999999);
+    //         $arr=[
+    //             'first_name'=> $request->first_name,
+    //             'last_name'=>$request->last_name,
+    //             'email'=>$request->email,
+    //             'Mobile_number'=>$request->Mobile_number,
+    //             'password'=>Crypt::encrypt($request->password),
+    //             'is_verify'=>0,
+    //             'is_forgot_password'=>0,
+    //             'rand_id'=>$rand_id,
+    //             'status'=>1,
+    //             'created_at'=>date('Y-m-d h:i:s'),
+    //             'updated_at'=>date('Y-m-d h:i:s'),
+    //         ];
+    //        $query= DB::table('customers')->insert($arr);
+    //        if($query){
+    //         $data=['name'=>$request->first_name,'rand_id'=>$rand_id];
+    //         $user['to']=$request->email;
+    //         Mail::send('front/email_verification',$data,function($messages) use ($user){
+    //           $messages->to($user['to']);
+    //           $messages->subject('Email Id Verification.');
+    //         });
+    //             return response()->json(['status'=>'success','msg'=>'Registration successfully done.Please check your email id for verification.']);
+    //        }
+    //     }
+
+    // }
+
+
     public function registration_process(Request $request){
         // prx($_POST);
         // return $request->all();
-        $valid =validator::make($request->all(),[
+        // dd($request);
+        // $valid =validator::make($request->all(),[
+        //     'first_name' => 'required',
+        //     'last_name' => 'required',
+        //     'email' => 'required|email|unique:customers,email',
+        //     'Mobile_number' => 'required|numeric|digits:11|unique:customers,Mobile_number',
+        //     'password' => 'required',
+
+        // ]);
+
+        $valid =$request->validate([
             'first_name' => 'required',
             'last_name' => 'required',
             'email' => 'required|email|unique:customers,email',
@@ -448,9 +508,17 @@ class FrontController extends Controller
             
         ]);
 
+
         if(!$valid->passes()){
-            return response()->json(['status'=>'error','error'=>$valid->errors()->toArray()]);
+           
+            session()->flash('success','Please check your Information details!');
+            return back();
         }else{
+
+
+
+
+
             $rand_id =rand(111111111 ,999999999);
             $arr=[
                 'first_name'=> $request->first_name,
@@ -458,27 +526,76 @@ class FrontController extends Controller
                 'email'=>$request->email,
                 'Mobile_number'=>$request->Mobile_number,
                 'password'=>Crypt::encrypt($request->password),
-                'is_verify'=>0,
+                'is_verify'=>1,
                 'is_forgot_password'=>0,
                 'rand_id'=>$rand_id,
                 'status'=>1,
                 'created_at'=>date('Y-m-d h:i:s'),
                 'updated_at'=>date('Y-m-d h:i:s'),
             ];
-           $query= DB::table('customers')->insert($arr);
-           if($query){
-            $data=['name'=>$request->first_name,'rand_id'=>$rand_id];
-            $user['to']=$request->email;
-            Mail::send('front/email_verification',$data,function($messages) use ($user){
-              $messages->to($user['to']);
-              $messages->subject('Email Id Verification.');
-            });
-                return response()->json(['status'=>'success','msg'=>'Registration successfully done.Please check your email id for verification.']);
-           }
+            $doc_user_otp_code=OtpModel::sendCode($request->Mobile_number);
+            Cache::put($request->Mobile_number, $doc_user_otp_code, $seconds = 600);
+            Cache::put('customerdata', $arr, $seconds = 600);
+            session()->flash('message','Otp has been sent this number ');
+            return view('front.sentotp',['phone_no'=>$request->Mobile_number]);
+
+
+
+
+            // if($query){
+            //  $data=['name'=>$request->first_name,'rand_id'=>$rand_id];
+            //  $user['to']=$request->email;
+            //  Mail::send('front/email_verification',$data,function($messages) use ($user){
+            //    $messages->to($user['to']);
+            //    $messages->subject('Email Id Verification.');
+            //  });
+            //      return response()->json(['status'=>'success','msg'=>'Registration successfully done.Please check your email id for verification.']);
+            // }
         }
 
     }
 
+
+      public function verifyotp(Request $request){
+
+        // dd($request);
+        try {
+            $valid =validator::make($request->all(),[
+                'otp' => 'required|numeric|digits:6|',
+            ]);
+
+            if(!$valid->passes()){
+                return response()->json(['status'=>'error','error'=>$valid->errors()->toArray()]);
+            }else{
+             $getotp=Cache::get($request->phone_no);
+             // dd($getotp);
+             $customerdata=Cache::get('customerdata');
+
+             if($getotp != $request->otp){
+                return response()->json(['otp'=>"Otp does not match"]);
+             }else{
+                $rand_id =rand(111111111 ,999999999);
+                $query= DB::table('customers')->insert($customerdata);
+                    // if($query){
+                    //     $data=['name'=>$request->first_name,'rand_id'=>$rand_id];
+                    //     $user['to']=$request->email;
+                    //     Mail::send('front/email_verification',$data,function($messages) use ($user){
+                    //     $messages->to($user['to']);
+                    //     $messages->subject('Email Id Verification.');
+                    //     });
+                    //         return response()->json(['status'=>'success','msg'=>'Registration successfully done.Please check your email id for verification.']);
+                    // }
+
+                    return redirect('/');
+             }
+            }
+
+        } catch (Exception $e) {
+            return $this->sendError($e->getMessage(), 401);
+        }
+
+
+     }
 
 
 
@@ -940,17 +1057,30 @@ class FrontController extends Controller
         // prx($_POST);
         // return $request->post('n_email');
         // die();
-        $request->validate([
-            
+        // $request->validate([
+        $valid =validator::make($request->all(),[    
             'n_email'=>'email|unique:news_letters,n_email', 
         ]);
-        $arr =[
+
+        if(!$valid->passes()){
+            return response()->json(['status'=>'error','msg'=>'Email already used.']);
+        }else{
+
+            $arr =[
             'n_email' =>$request->post('n_email')
-        ];
+            ];
 
-        DB::table('news_letters')->insert($arr);
+            DB::table('news_letters')->insert($arr);
 
-        return back();
+            return response()->json(['status'=>'success','msg'=>'News Letter subscribe successfully.']);
+        }
+        // $arr =[
+        //     'n_email' =>$request->post('n_email')
+        // ];
+
+        // DB::table('news_letters')->insert($arr);
+
+        // return back();
     }
 
 
