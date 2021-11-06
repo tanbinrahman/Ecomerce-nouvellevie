@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\validator;
 use Illuminate\Support\Facades\validate;
 use Illuminate\Support\Str;
+use App\Models\admin\Customer;
 use Session;
 use Crypt;
 use Mail;
@@ -1032,7 +1033,7 @@ class FrontController extends Controller
     }
 
 
-
+    
 
     public function order_details(Request $request ,$id){
         // echo $id;
@@ -1052,6 +1053,24 @@ class FrontController extends Controller
         return view('front.orderdetails',$result);
     }
 
+    public function edit_account(Request $request, $id){
+            $customer =Customer::findOrFail($id);
+            return view('front.editaccount',compact('customer'));
+    }
+
+    public function update_account(Request $request ,$id){
+
+        $customer =Customer::find($id);
+        $customer->first_name =$request->post('first_name');
+        $customer->last_name =$request->post('last_name');
+        $customer->street_address =$request->post('street_address');
+        $customer->town =$request->post('town');
+        $customer->district =$request->post('district');
+        $customer->post_code =$request->post('post_code');
+        $customer->save();
+        session()->flash('success','Account Updated successfully.');
+        return redirect()->route('order');
+    }
 
     public function newsletter(Request $request){
         // prx($_POST);

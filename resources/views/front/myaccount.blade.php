@@ -63,6 +63,11 @@
                             <td><b>Post Code:</b></td>
                             <td>{{' '. $customer[0]->post_code }}</td>
                         </tr>
+                        <tr>
+                            <td>
+                                <a class="btn btn-success btn-lg  text-withe" href="{{ route('edit_account',$customer[0]->id) }}">Edit</a>
+                            </td>
+                        </tr>
                     </tbody>
                 </table>
             </div>

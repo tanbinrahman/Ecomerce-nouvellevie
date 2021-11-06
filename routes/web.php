@@ -69,6 +69,8 @@ Route::post('/newsletter',[FrontController::class,'newsletter'])->name('newslett
 Route::group(['middleware' =>'user_auth'],function(){
     Route::get('/order',[FrontController::class,'order'])->name('order');
     Route::get('/order_details/{id}',[FrontController::class,'order_details'])->name('order_details');
+    Route::get('/edit_account/{id}',[FrontController::class,'edit_account'])->name('edit_account');
+    Route::post('/update_account/{id}',[FrontController::class,'update_account'])->name('update_account');
 });
 
 
