@@ -510,11 +510,11 @@ class FrontController extends Controller
         ]);
 
 
-        if(!$valid->passes()){
+        // if(!$valid->passes()){
            
-            session()->flash('success','Please check your Information details!');
-            return back();
-        }else{
+        //     session()->flash('success','Please check your Information details!');
+        //     return back();
+        // }else{
 
 
 
@@ -552,7 +552,7 @@ class FrontController extends Controller
             //  });
             //      return response()->json(['status'=>'success','msg'=>'Registration successfully done.Please check your email id for verification.']);
             // }
-        }
+        // }
 
     }
 
@@ -576,7 +576,10 @@ class FrontController extends Controller
                 return response()->json(['otp'=>"Otp does not match"]);
              }else{
                 $rand_id =rand(111111111 ,999999999);
-                $query= DB::table('customers')->insert($customerdata);
+                $customer_id= DB::table('customers')->insertGetId($customerdata);
+                // prx($customer_id);
+                // die();
+
                     // if($query){
                     //     $data=['name'=>$request->first_name,'rand_id'=>$rand_id];
                     //     $user['to']=$request->email;
@@ -587,6 +590,14 @@ class FrontController extends Controller
                     //         return response()->json(['status'=>'success','msg'=>'Registration successfully done.Please check your email id for verification.']);
                     // }
 
+                    $result =DB::table('customers')
+                    ->where(['id'=>$customer_id])
+                    ->get();
+                    // prx($result[0]);
+                    $name =$result[0]->first_name.' '.$result[0]->last_name;
+                    $request->session()->put('FRONT_USER_LOGIN',true);
+                    $request->session()->put('FRONT_USER_ID',$result[0]->id);
+                    $request->session()->put('FRONT_USER_NAME',$name);
                     return redirect('/');
              }
             }
